@@ -1,0 +1,82 @@
+---
+title: SegmentedControl
+description: Composable SegmentedControl built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/SegmentedControlDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/segmented-control
+```
+
+## Props
+
+| Property               | Behavior                                                                 |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `options`              | Options with value, label and optional disabled.                         |
+| `value / defaultValue` | Controlled state or initial default state from the underlying primitive. |
+| `onValueChange`        | Change or submit callback; application owns side effects.                |
+| `label / aria-label`   | Caller-supplied text or accessible name; no built-in copy.               |
+
+Exports：`SegmentedOption`、`SegmentedControl`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/segmented-control";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [choice, setChoice] = useState("weekly");
+  return (
+    <div
+      id="preview"
+      data-demo="segmented-control"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="space-y-4">
+        <UI.SegmentedControl
+          label={text("显示方式", "Display mode")}
+          options={[
+            { value: "weekly", label: text("每周", "Weekly") },
+            { value: "daily", label: text("每日", "Daily") },
+            {
+              value: "off",
+              label: text("不可用", "Unavailable"),
+              disabled: true,
+            },
+          ]}
+          value={choice}
+          onValueChange={setChoice}
+        />
+        <p role="status">{choice}</p>
+        <UI.SegmentedControl
+          aria-label={text("禁用显示方式", "Disabled display mode")}
+          disabled
+          options={[
+            { value: "weekly", label: text("每周", "Weekly") },
+            { value: "daily", label: text("每日", "Daily") },
+          ]}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

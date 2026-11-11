@@ -1,0 +1,85 @@
+---
+title: Accordion
+description: Composable Accordion built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/AccordionDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/accordion
+```
+
+## Props
+
+| Property               | Behavior                                                                 |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `value / defaultValue` | Controlled state or initial default state from the underlying primitive. |
+| `onValueChange`        | Change or submit callback; application owns side effects.                |
+| `multiple`             | boolean; enable multiple selection with array values and callbacks.      |
+| `disabled`             | boolean; disable interaction, default false.                             |
+
+Exports：`Accordion`、`AccordionItem`、`AccordionTrigger`、`AccordionContent`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import * as UI from "@/components/ui/accordion";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="accordion"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Accordion defaultValue={["install"]}>
+        <UI.AccordionItem value="install">
+          <UI.AccordionTrigger>
+            {text("如何安装？", "How do I install it?")}
+          </UI.AccordionTrigger>
+          <UI.AccordionContent>
+            {text(
+              "运行本页提供的 shadcn 安装命令。",
+              "Run the shadcn installation command on this page.",
+            )}
+          </UI.AccordionContent>
+        </UI.AccordionItem>
+        <UI.AccordionItem value="theme">
+          <UI.AccordionTrigger>
+            {text("支持深色吗？", "Does it support dark mode?")}
+          </UI.AccordionTrigger>
+          <UI.AccordionContent>
+            {text(
+              "支持，切换根元素的 dark 类。",
+              "Yes. Toggle the dark class on the root element.",
+            )}
+          </UI.AccordionContent>
+        </UI.AccordionItem>
+        <UI.AccordionItem value="disabled" disabled>
+          <UI.AccordionTrigger>
+            {text("不可用", "Unavailable")}
+          </UI.AccordionTrigger>
+          <UI.AccordionContent />
+        </UI.AccordionItem>
+      </UI.Accordion>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

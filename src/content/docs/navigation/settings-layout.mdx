@@ -1,0 +1,93 @@
+---
+title: SettingsLayout
+description: 可组合的设置分区、表单行、说明和重置操作。
+---
+
+import Demo from "../../../components/demos/SettingsLayoutDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/settings-layout
+```
+
+## Props
+
+| 参数                            | 行为                                           |
+| ------------------------------- | ---------------------------------------------- |
+| `title / children`              | ReactNode；分组标题与调用方提供的分组内容。    |
+| `name / details / detailsLabel` | 调用方提供的文案或可访问名称，不内置默认文字。 |
+| `unit / actions`                | ReactNode；SettingsControls 的单位与操作区。   |
+| `label`                         | 调用方提供的文案或可访问名称，不内置默认文字。 |
+
+导出：`SettingsLayout`、`SettingsSection`、`SettingsRow`、`SettingsLabel`、`SettingsName`、`SettingsControls`、`SettingsReadOnly`、`SettingsReset`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useId, useState } from "react";
+import * as UI from "@/components/settings-layout";
+import { Input } from "@/components/ui/input";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+  const [amount, setAmount] = useState(30);
+  return (
+    <div
+      id="preview"
+      data-demo="settings-layout"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.SettingsLayout>
+        <UI.SettingsSection title={text("同步设置", "Sync settings")}>
+          <UI.SettingsRow onSubmit={(event) => event.preventDefault()}>
+            <UI.SettingsName
+              htmlFor={id}
+              name={text("间隔", "Interval")}
+              details={text(
+                "更改仅影响预览。",
+                "Changes only affect this preview.",
+              )}
+              detailsLabel={text("间隔说明", "Interval details")}
+            />
+            <UI.SettingsControls
+              unit={text("分钟", "minutes")}
+              actions={
+                <UI.SettingsReset
+                  label={text("恢复 15 分钟", "Reset to 15 minutes")}
+                  onClick={() => setAmount(15)}
+                />
+              }
+            >
+              <Input
+                id={id}
+                type="number"
+                min={1}
+                value={amount}
+                onChange={(event) => setAmount(Number(event.target.value))}
+                className="w-24"
+              />
+            </UI.SettingsControls>
+          </UI.SettingsRow>
+        </UI.SettingsSection>
+      </UI.SettingsLayout>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。
+
+SettingsRow 渲染 form；放入 SettingsPage 时用 div 行避免嵌套表单。重置仅更改草稿，持久化属于 onSave。

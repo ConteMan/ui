@@ -1,0 +1,95 @@
+---
+title: Pagination
+description: 可组合的 Pagination，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/PaginationDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/pagination
+```
+
+## Props
+
+| 参数         | 行为                                             |
+| ------------ | ------------------------------------------------ |
+| `aria-label` | 调用方提供的文案或可访问名称，不内置默认文字。   |
+| `isActive`   | boolean；当前页样式并设置 aria-current=page。    |
+| `text`       | 调用方提供的文案或可访问名称，不内置默认文字。   |
+| `href`       | string；分页链接目标；点击与路由状态由应用处理。 |
+
+导出：`Pagination`、`PaginationContent`、`PaginationEllipsis`、`PaginationItem`、`PaginationLink`、`PaginationNext`、`PaginationPrevious`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/pagination";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [selected, setSelected] = useState(1);
+  return (
+    <div
+      id="preview"
+      data-demo="pagination"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Pagination aria-label={text("示例分页", "Example pagination")}>
+        <UI.PaginationContent>
+          <UI.PaginationItem>
+            <UI.PaginationPrevious
+              href="#preview"
+              text={text("上一页", "Previous")}
+              onClick={(event) => {
+                event.preventDefault();
+                setSelected(Math.max(1, selected - 1));
+              }}
+            />
+          </UI.PaginationItem>
+          {[1, 2, 3].map((value) => (
+            <UI.PaginationItem key={value}>
+              <UI.PaginationLink
+                href="#preview"
+                isActive={selected === value}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setSelected(value);
+                }}
+              >
+                {value}
+              </UI.PaginationLink>
+            </UI.PaginationItem>
+          ))}
+          <UI.PaginationItem>
+            <UI.PaginationNext
+              href="#preview"
+              text={text("下一页", "Next")}
+              onClick={(event) => {
+                event.preventDefault();
+                setSelected(Math.min(3, selected + 1));
+              }}
+            />
+          </UI.PaginationItem>
+        </UI.PaginationContent>
+      </UI.Pagination>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

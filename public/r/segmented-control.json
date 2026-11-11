@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segmented-control",
+  "title": "SegmentedControl",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/toggle-group"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/segmented-control.tsx",
+      "content": "// Project composition of the generated ToggleGroup. Generated UI files stay unchanged.\nimport {\n  useId,\n  useRef,\n  useState,\n  type FocusEvent,\n  type ReactNode,\n} from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\";\n\nexport type SegmentedOption = {\n  label: ReactNode;\n  value: string;\n  icon?: ReactNode;\n  count?: number;\n  disabled?: boolean;\n};\n\nexport function SegmentedControl({\n  options,\n  value: valueProp,\n  defaultValue,\n  onValueChange,\n  label,\n  size = \"default\",\n  id,\n  name,\n  disabled = false,\n  className,\n  \"aria-label\": ariaLabel,\n}: {\n  options: SegmentedOption[];\n  value?: string;\n  defaultValue?: string;\n  onValueChange?: (value: string) => void;\n  label?: ReactNode;\n  size?: \"default\" | \"sm\";\n  id?: string;\n  name?: string;\n  disabled?: boolean;\n  className?: string;\n  \"aria-label\"?: string;\n}) {\n  const labelId = useId();\n  const [uncontrolled, setUncontrolled] = useState(\n    () =>\n      defaultValue ??\n      options.find((option) => !option.disabled)?.value ??\n      options[0]?.value ??\n      \"\",\n  );\n  const value = valueProp ?? uncontrolled;\n  const valueRef = useRef(value);\n  valueRef.current = value;\n  function commit(next: string) {\n    if (!next || next === valueRef.current) return;\n    onValueChange?.(next);\n    if (valueProp === undefined) setUncontrolled(next);\n  }\n  function selectFocused(event: FocusEvent<HTMLDivElement>) {\n    const target = event.target;\n    if (\n      !(target instanceof HTMLElement) ||\n      !event.currentTarget.contains(target)\n    )\n      return;\n    const next = target.dataset.choiceValue;\n    if (!next || target.matches(\":disabled\")) return;\n    commit(next);\n  }\n  return (\n    <div\n      id={id}\n      data-slot=\"segmented-control\"\n      data-size={size}\n      data-selected-value={value}\n      className={cn(className)}\n      onFocus={selectFocused}\n    >\n      {label ? (\n        <span id={labelId} data-slot=\"segmented-label\">\n          {label}\n        </span>\n      ) : null}\n      {name ? (\n        <input type=\"hidden\" name={name} value={value} aria-hidden=\"true\" />\n      ) : null}\n      <ToggleGroup\n        aria-label={label ? undefined : ariaLabel}\n        aria-labelledby={label ? labelId : undefined}\n        value={[value]}\n        spacing={0}\n        size={size === \"sm\" ? \"sm\" : \"default\"}\n        disabled={disabled}\n        onValueChange={(next, details) => {\n          // Single-select stays pressed; a second click must not clear it.\n          if (next.length !== 1) {\n            details.cancel();\n            return;\n          }\n          commit(next[0]);\n        }}\n      >\n        {options.map((option) => (\n          <ToggleGroupItem\n            key={option.value}\n            value={option.value}\n            disabled={disabled || option.disabled}\n            data-choice-value={option.value}\n          >\n            {option.icon ? (\n              <span aria-hidden=\"true\" data-segment-icon>\n                {option.icon}\n              </span>\n            ) : null}\n            <span>{option.label}</span>\n            {option.count !== undefined ? (\n              <span data-segment-count>{option.count}</span>\n            ) : null}\n          </ToggleGroupItem>\n        ))}\n      </ToggleGroup>\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "type": "registry:block"
+}

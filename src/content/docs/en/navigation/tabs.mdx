@@ -1,0 +1,73 @@
+---
+title: Tabs
+description: Composable Tabs built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/TabsDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/tabs
+```
+
+## Props
+
+| Property               | Behavior                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| `value / defaultValue` | Controlled state or initial default state from the underlying primitive.             |
+| `onValueChange`        | Change or submit callback; application owns side effects.                            |
+| `orientation`          | horizontal / vertical; Field also supports responsive; controls layout or direction. |
+
+Exports：`Tabs`、`TabsList`、`TabsTrigger`、`TabsContent`、`tabsListVariants`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import * as UI from "@/components/ui/tabs";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="tabs"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Tabs defaultValue="overview">
+        <UI.TabsList aria-label={text("项目面板", "Project panels")}>
+          <UI.TabsTrigger value="overview">
+            {text("概览", "Overview")}
+          </UI.TabsTrigger>
+          <UI.TabsTrigger value="details">
+            {text("详情", "Details")}
+          </UI.TabsTrigger>
+          <UI.TabsTrigger value="disabled" disabled>
+            {text("不可用", "Unavailable")}
+          </UI.TabsTrigger>
+        </UI.TabsList>
+        <UI.TabsContent value="overview">
+          {text("项目概览内容。", "Project overview content.")}
+        </UI.TabsContent>
+        <UI.TabsContent value="details">
+          {text("项目详情内容。", "Project details content.")}
+        </UI.TabsContent>
+      </UI.Tabs>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

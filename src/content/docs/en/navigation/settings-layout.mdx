@@ -1,0 +1,93 @@
+---
+title: SettingsLayout
+description: Compose settings sections, form rows, details, and reset actions.
+---
+
+import Demo from "../../../../components/demos/SettingsLayoutDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/settings-layout
+```
+
+## Props
+
+| Property                        | Behavior                                                   |
+| ------------------------------- | ---------------------------------------------------------- |
+| `title / children`              | ReactNode; group heading and caller-provided content.      |
+| `name / details / detailsLabel` | Caller-supplied text or accessible name; no built-in copy. |
+| `unit / actions`                | ReactNode; unit and action area in SettingsControls.       |
+| `label`                         | Caller-supplied text or accessible name; no built-in copy. |
+
+Exports：`SettingsLayout`、`SettingsSection`、`SettingsRow`、`SettingsLabel`、`SettingsName`、`SettingsControls`、`SettingsReadOnly`、`SettingsReset`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useId, useState } from "react";
+import * as UI from "@/components/settings-layout";
+import { Input } from "@/components/ui/input";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+  const [amount, setAmount] = useState(30);
+  return (
+    <div
+      id="preview"
+      data-demo="settings-layout"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.SettingsLayout>
+        <UI.SettingsSection title={text("同步设置", "Sync settings")}>
+          <UI.SettingsRow onSubmit={(event) => event.preventDefault()}>
+            <UI.SettingsName
+              htmlFor={id}
+              name={text("间隔", "Interval")}
+              details={text(
+                "更改仅影响预览。",
+                "Changes only affect this preview.",
+              )}
+              detailsLabel={text("间隔说明", "Interval details")}
+            />
+            <UI.SettingsControls
+              unit={text("分钟", "minutes")}
+              actions={
+                <UI.SettingsReset
+                  label={text("恢复 15 分钟", "Reset to 15 minutes")}
+                  onClick={() => setAmount(15)}
+                />
+              }
+            >
+              <Input
+                id={id}
+                type="number"
+                min={1}
+                value={amount}
+                onChange={(event) => setAmount(Number(event.target.value))}
+                className="w-24"
+              />
+            </UI.SettingsControls>
+          </UI.SettingsRow>
+        </UI.SettingsSection>
+      </UI.SettingsLayout>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
+
+SettingsRow renders a form. Inside SettingsPage, use div rows to avoid nesting forms. Reset changes the draft; persistence belongs to onSave.

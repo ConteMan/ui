@@ -1,0 +1,74 @@
+---
+title: Toggle
+description: 可组合的 Toggle，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/ToggleDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/toggle
+```
+
+## Props
+
+| 参数                       | 行为                               |
+| -------------------------- | ---------------------------------- |
+| `pressed / defaultPressed` | 沿用底层组件的受控值或初始默认值。 |
+| `onPressedChange`          | 变更或提交回调，副作用由应用处理。 |
+| `variant`                  | default / outline；按钮视觉样式。  |
+| `disabled`                 | boolean；禁用交互，默认 false。    |
+
+导出：`Toggle`、`toggleVariants`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import * as UI from "@/components/ui/toggle";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="toggle"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="flex flex-wrap gap-3">
+        <UI.Toggle
+          aria-label={text("加粗", "Bold")}
+          variant="outline"
+          className="min-h-11 min-w-11"
+        >
+          B
+        </UI.Toggle>
+        <UI.Toggle
+          aria-label={text("斜体", "Italic")}
+          defaultPressed
+          className="min-h-11 min-w-11"
+        >
+          <em>I</em>
+        </UI.Toggle>
+        <UI.Toggle disabled aria-label={text("不可用", "Unavailable")}>
+          U
+        </UI.Toggle>
+      </div>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

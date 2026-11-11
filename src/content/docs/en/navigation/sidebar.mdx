@@ -1,0 +1,100 @@
+---
+title: Sidebar
+description: Composable Sidebar built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/SidebarDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/sidebar
+```
+
+## Props
+
+| Property                          | Behavior                                                       |
+| --------------------------------- | -------------------------------------------------------------- |
+| `open / defaultOpen`              | boolean; controlled open state or uncontrolled initial state.  |
+| `onOpenChange`                    | Change or submit callback; application owns side effects.      |
+| `collapsible`                     | offcanvas / icon / none; sidebar collapse behavior.            |
+| `mobileTitle / mobileDescription` | string; required mobile title and optional dialog description. |
+
+Exports：`Sidebar`、`SidebarContent`、`SidebarFooter`、`SidebarGroup`、`SidebarGroupAction`、`SidebarGroupContent`、`SidebarGroupLabel`、`SidebarHeader`、`SidebarInput`、`SidebarInset`、`SidebarMenu`、`SidebarMenuAction`、`SidebarMenuBadge`、`SidebarMenuButton`、`SidebarMenuItem`、`SidebarMenuSkeleton`、`SidebarMenuSub`、`SidebarMenuSubButton`、`SidebarMenuSubItem`、`SidebarProvider`、`SidebarRail`、`SidebarSeparator`、`SidebarTrigger`、`useSidebar`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/sidebar";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [selected, setSelected] = useState(1);
+  return (
+    <div
+      id="preview"
+      data-demo="sidebar"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.SidebarProvider className="min-h-0">
+        <UI.Sidebar
+          collapsible="none"
+          mobileTitle={text("导航", "Navigation")}
+          className="w-full"
+        >
+          <UI.SidebarHeader>
+            {text("示例工作区", "Example workspace")}
+          </UI.SidebarHeader>
+          <UI.SidebarContent>
+            <UI.SidebarGroup>
+              <UI.SidebarGroupLabel>
+                {text("工作", "Workspace")}
+              </UI.SidebarGroupLabel>
+              <UI.SidebarGroupContent>
+                <UI.SidebarMenu>
+                  {[text("概览", "Overview"), text("项目", "Projects")].map(
+                    (label, index) => (
+                      <UI.SidebarMenuItem key={label}>
+                        <UI.SidebarMenuButton
+                          isActive={selected === index}
+                          onClick={() => setSelected(index)}
+                          className="min-h-11"
+                        >
+                          {label}
+                        </UI.SidebarMenuButton>
+                      </UI.SidebarMenuItem>
+                    ),
+                  )}
+                </UI.SidebarMenu>
+              </UI.SidebarGroupContent>
+            </UI.SidebarGroup>
+          </UI.SidebarContent>
+          <UI.SidebarFooter>
+            {text(
+              "基础分组示例，后台外壳另行迁移。",
+              "Primitive groups; the admin shell is deferred.",
+            )}
+          </UI.SidebarFooter>
+        </UI.Sidebar>
+      </UI.SidebarProvider>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
+
+Sidebar is a primitive with groups. The grouped admin shell and sticky page header are intentionally deferred; see [Admin shell](/en/patterns/admin-shell/).

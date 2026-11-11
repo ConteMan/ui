@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "settings-layout",
+  "title": "SettingsLayout",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [
+    "lucide-react@1.52.0"
+  ],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/button",
+    "@conteman/field",
+    "@conteman/popover",
+    "@conteman/tooltip"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/settings-layout.tsx",
+      "content": "import { useId, type ComponentProps, type ReactNode } from \"react\";\nimport { Info, RotateCcw } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\nimport { Button } from \"@/components/ui/button\";\nimport { FieldLabel } from \"@/components/ui/field\";\nimport {\n  Popover,\n  PopoverContent,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\";\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n  TooltipProvider,\n} from \"@/components/ui/tooltip\";\n\nexport function SettingsLayout({ className, ...props }: ComponentProps<\"div\">) {\n  return (\n    <div\n      data-settings-layout\n      className={cn(\"mx-auto w-full max-w-5xl space-y-5\", className)}\n      {...props}\n    />\n  );\n}\nexport function SettingsSection({\n  title,\n  children,\n}: {\n  title: ReactNode;\n  children: ReactNode;\n}) {\n  const id = useId();\n  return (\n    <section aria-labelledby={id} className=\"space-y-2\">\n      <h2 id={id} className=\"text-sm font-semibold\">\n        {title}\n      </h2>\n      <div className=\"divide-y border border-border bg-card\">{children}</div>\n    </section>\n  );\n}\nexport function SettingsRow({\n  paired = false,\n  className,\n  ...props\n}: ComponentProps<\"form\"> & { paired?: boolean }) {\n  return (\n    <form\n      data-settings-row\n      data-paired={paired}\n      className={cn(\n        \"grid min-w-0 grid-cols-1 items-center gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_auto]\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\nexport function SettingsLabel({ className, ...props }: ComponentProps<\"span\">) {\n  return <span className={cn(\"text-sm\", className)} {...props} />;\n}\nexport function SettingsName({\n  htmlFor,\n  name,\n  details,\n  detailsLabel,\n  children,\n}: {\n  htmlFor: string;\n  name: string;\n  details: ReactNode;\n  detailsLabel: string;\n  children?: ReactNode;\n}) {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <FieldLabel htmlFor={htmlFor}>{name}</FieldLabel>\n      <Popover>\n        <PopoverTrigger\n          render={\n            <Button\n              type=\"button\"\n              variant=\"ghost\"\n              size=\"icon\"\n              aria-label={detailsLabel}\n              className=\"min-h-11 min-w-11\"\n            />\n          }\n        >\n          <Info aria-hidden=\"true\" />\n        </PopoverTrigger>\n        <PopoverContent>\n          <PopoverTitle>{detailsLabel}</PopoverTitle>\n          {details}\n        </PopoverContent>\n      </Popover>\n      {children}\n    </div>\n  );\n}\nexport function SettingsControls({\n  unit,\n  actions,\n  resetOnly = false,\n  variant = \"number\",\n  className,\n  children,\n  ...props\n}: ComponentProps<\"div\"> & {\n  unit?: ReactNode;\n  actions?: ReactNode;\n  resetOnly?: boolean;\n  variant?: \"number\" | \"field\" | \"segmented\";\n}) {\n  return (\n    <div\n      data-settings-controls={variant}\n      data-reset-only={resetOnly}\n      className={cn(\n        \"flex min-w-0 flex-wrap items-center gap-2 sm:justify-end\",\n        className,\n      )}\n      {...props}\n    >\n      {children}\n      {unit && <span>{unit}</span>}\n      {actions}\n    </div>\n  );\n}\nexport function SettingsReadOnly({\n  className,\n  ...props\n}: ComponentProps<\"span\">) {\n  return (\n    <span\n      className={cn(\n        \"break-words text-sm text-muted-foreground sm:text-right\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\nexport function SettingsReset({\n  label,\n  ...props\n}: Omit<ComponentProps<typeof Button>, \"children\" | \"aria-label\"> & {\n  label: string;\n}) {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger\n          render={\n            <Button\n              {...props}\n              type=\"button\"\n              variant=\"ghost\"\n              size=\"icon\"\n              aria-label={label}\n              className=\"min-h-11 min-w-11\"\n            />\n          }\n        >\n          <RotateCcw aria-hidden=\"true\" />\n        </TooltipTrigger>\n        <TooltipContent>{label}</TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ],
+  "type": "registry:block"
+}

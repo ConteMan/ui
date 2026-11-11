@@ -1,0 +1,95 @@
+---
+title: Pagination
+description: Composable Pagination built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/PaginationDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/pagination
+```
+
+## Props
+
+| Property     | Behavior                                                      |
+| ------------ | ------------------------------------------------------------- |
+| `aria-label` | Caller-supplied text or accessible name; no built-in copy.    |
+| `isActive`   | boolean; current-page styling and aria-current=page.          |
+| `text`       | Caller-supplied text or accessible name; no built-in copy.    |
+| `href`       | string; pagination destination; the application owns routing. |
+
+Exports：`Pagination`、`PaginationContent`、`PaginationEllipsis`、`PaginationItem`、`PaginationLink`、`PaginationNext`、`PaginationPrevious`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/pagination";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [selected, setSelected] = useState(1);
+  return (
+    <div
+      id="preview"
+      data-demo="pagination"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Pagination aria-label={text("示例分页", "Example pagination")}>
+        <UI.PaginationContent>
+          <UI.PaginationItem>
+            <UI.PaginationPrevious
+              href="#preview"
+              text={text("上一页", "Previous")}
+              onClick={(event) => {
+                event.preventDefault();
+                setSelected(Math.max(1, selected - 1));
+              }}
+            />
+          </UI.PaginationItem>
+          {[1, 2, 3].map((value) => (
+            <UI.PaginationItem key={value}>
+              <UI.PaginationLink
+                href="#preview"
+                isActive={selected === value}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setSelected(value);
+                }}
+              >
+                {value}
+              </UI.PaginationLink>
+            </UI.PaginationItem>
+          ))}
+          <UI.PaginationItem>
+            <UI.PaginationNext
+              href="#preview"
+              text={text("下一页", "Next")}
+              onClick={(event) => {
+                event.preventDefault();
+                setSelected(Math.min(3, selected + 1));
+              }}
+            />
+          </UI.PaginationItem>
+        </UI.PaginationContent>
+      </UI.Pagination>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

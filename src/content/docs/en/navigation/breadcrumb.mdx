@@ -1,0 +1,66 @@
+---
+title: Breadcrumb
+description: Composable Breadcrumb built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/BreadcrumbDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/breadcrumb
+```
+
+## Props
+
+| Property     | Behavior                                                   |
+| ------------ | ---------------------------------------------------------- |
+| `aria-label` | Caller-supplied text or accessible name; no built-in copy. |
+| `children`   | ReactNode content provided by the caller.                  |
+
+Exports：`Breadcrumb`、`BreadcrumbList`、`BreadcrumbItem`、`BreadcrumbLink`、`BreadcrumbPage`、`BreadcrumbSeparator`、`BreadcrumbEllipsis`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import * as UI from "@/components/ui/breadcrumb";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="breadcrumb"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Breadcrumb aria-label={text("当前位置", "Breadcrumb")}>
+        <UI.BreadcrumbList>
+          <UI.BreadcrumbItem>
+            <UI.BreadcrumbLink href={english ? "/en/" : "/"}>
+              {text("首页", "Home")}
+            </UI.BreadcrumbLink>
+          </UI.BreadcrumbItem>
+          <UI.BreadcrumbSeparator />
+          <UI.BreadcrumbItem>
+            <UI.BreadcrumbPage>{text("项目", "Projects")}</UI.BreadcrumbPage>
+          </UI.BreadcrumbItem>
+        </UI.BreadcrumbList>
+      </UI.Breadcrumb>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
