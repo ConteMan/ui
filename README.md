@@ -19,7 +19,7 @@ npx shadcn add @conteman/button
 npx shadcn add @conteman/data-table
 ```
 
-DataTable 会自动安装 Button、Input、Table、工具函数与主题。所有文案由调用方传入。
+包含基础、表单、数据展示、浮层、导航、页面模式和主题。DataTable 支持本地与受控服务端分页、排序、筛选、选择、列设置及填满高度布局，自动安装所需依赖组件、工具函数与主题。所有文案由调用方传入。
 
 ## 本地开发
 
@@ -38,3 +38,5 @@ pnpm preview
 Nimbus 目前只有站点级 `locale`。本项目通过 `/en/` 内容、语言感知的导航与页面元数据补齐双语切换。Nimbus 的 `data-mode` 通过预览作用域映射到组件的主题变量；接入项目使用标准 `.dark`。
 
 许可：MIT。上游许可见 `LICENSE.upstream.md`。使用官方 Nimbus 脚手架 0.8.3；具体依赖固定于 `pnpm-lock.yaml`。
+
+运行 `node scripts/verify-consumer.mjs <仓库外的全新目录> [registry-origin]` 可创建独立 Vite 项目，逐项通过 shadcn 安装全部条目并构建，日志保存在该目录的 `logs/`。

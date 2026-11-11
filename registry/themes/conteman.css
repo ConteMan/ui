@@ -18,6 +18,19 @@
   --input: oklch(0.80 0 0);
   --ring: oklch(0.50 0 0);
   --radius: 0rem;
+  --chart-1: oklch(0.55 0.18 260);
+  --chart-2: oklch(0.5 0.13 165);
+  --chart-3: oklch(0.65 0.15 70);
+  --chart-4: oklch(0.6 0.17 310);
+  --chart-5: oklch(0.6 0.18 30);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.50 0 0);
   --nb-background: var(--background);
   --nb-foreground: var(--foreground);
   --nb-card: var(--card);
@@ -36,6 +49,19 @@
   --nb-border: var(--border);
   --nb-input: var(--input);
   --nb-ring: var(--ring);
+  --nb-chart-1: var(--chart-1);
+  --nb-chart-2: var(--chart-2);
+  --nb-chart-3: var(--chart-3);
+  --nb-chart-4: var(--chart-4);
+  --nb-chart-5: var(--chart-5);
+  --nb-sidebar: var(--sidebar);
+  --nb-sidebar-foreground: var(--sidebar-foreground);
+  --nb-sidebar-primary: var(--sidebar-primary);
+  --nb-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --nb-sidebar-accent: var(--sidebar-accent);
+  --nb-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --nb-sidebar-border: var(--sidebar-border);
+  --nb-sidebar-ring: var(--sidebar-ring);
 }
 
 [data-mode="dark"] .conteman-preview, .dark .conteman-preview {
@@ -57,4 +83,17 @@
   --border: oklch(1 0 0 / 15%);
   --input: oklch(1 0 0 / 30%);
   --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.7 0.15 260);
+  --chart-2: oklch(0.73 0.13 165);
+  --chart-3: oklch(0.65 0.15 70);
+  --chart-4: oklch(0.6 0.17 310);
+  --chart-5: oklch(0.6 0.18 30);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.922 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 15%);
+  --sidebar-ring: oklch(0.708 0 0);
 }

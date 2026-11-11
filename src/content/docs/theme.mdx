@@ -43,3 +43,5 @@ document.documentElement.classList.toggle("dark");
 Nimbus 自带 `data-mode="dark"`、系统主题跟随和持久化切换。本项目将注册表变量限定在 `.conteman-preview` 内，并将 Nimbus 的 `--nb-*` 颜色映射到组件变量。Base UI Portal 同样携带预览类，因此弹层不丢失主题。
 
 生成的桥接 CSS 来自同一份主题数据。安装到项目的组件仍使用标准 `.dark`，不依赖文档站。
+
+主题提供 chart-1 至 chart-5 图表色和 sidebar 系列变量，并安装 tw-animate-css。Chart 的 theme 配置可分别提供浅深色值，文档预览同时响应 data-mode。

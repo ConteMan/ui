@@ -4,15 +4,19 @@
   "title": "Class utilities",
   "description": "Merge conditional Tailwind class names.",
   "dependencies": [
-    "clsx",
-    "tailwind-merge"
+    "clsx@^2.1.1",
+    "tailwind-merge@^3.5.0"
   ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "registry/lib/utils.ts",
       "content": "import { clsx, type ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n",
       "type": "registry:lib"
     }
+  ],
+  "categories": [
+    "utilities"
   ],
   "type": "registry:lib"
 }

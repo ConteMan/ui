@@ -32,8 +32,8 @@ DataTable resolves Button, Input, Table, class utilities and theme automatically
 
 - Import installed UI primitives using the project's UI alias. The DataTable file is installed under the components alias.
 - Supply all visible text, accessible names, placeholders, empty and loading states through props. DataTable requires a `labels` object and column definitions; see https://ui.conteman.com/en/data-display/data-table/index.md.
-- This DataTable performs client-side search and pagination. Do not assume server pagination, row selection or sorting support.
+- DataTable supports local processing and controlled server pagination, sorting and filtering through TanStack Table 8 state/callback pairs and manual flags. Supply the filtered rowCount. The consumer owns requests, URL state, persistence and cross-page bulk actions. Read the DataTable docs for facets, debounced IME search, column settings, selection, internal scrolling and refreshing.
 - Toggle `.dark` on the consuming application's root for dark mode. Nimbus's `data-mode` belongs only to the documentation site.
-- Button's dialog example tests Base UI portals and keyboard focus. It does not imply a separately distributed Dialog component.
+- Install basics, forms, data display, overlays, navigation, list-page, settings-page and edit-sheet independently. Dialog is a separate registry item. The admin-shell page is a placeholder pending upstream #396.
 
 Read the installed source before modifying it; the consuming project owns its copy.

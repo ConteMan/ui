@@ -4,65 +4,1250 @@
   "homepage": "https://ui.conteman.com",
   "items": [
     {
-      "name": "utils", "type": "registry:lib", "title": "Class utilities",
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Class utilities",
       "description": "Merge conditional Tailwind class names.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "files": [{ "path": "registry/lib/utils.ts", "type": "registry:lib" }]
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0"
+      ],
+      "files": [
+        {
+          "path": "registry/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "categories": [
+        "utilities"
+      ],
+      "registryDependencies": []
     },
     {
-      "name": "button", "type": "registry:ui", "title": "Button",
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
       "description": "Base UI button with Lyra variants and sizes. Text is provided by the consumer.",
-      "dependencies": ["@base-ui/react@^1.9.0", "class-variance-authority"],
-      "registryDependencies": ["@conteman/utils", "@conteman/theme"],
-      "files": [{ "path": "registry/ui/button.tsx", "type": "registry:ui" }]
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "basics"
+      ]
     },
     {
-      "name": "input", "type": "registry:ui", "title": "Input",
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
       "description": "Base UI input. Accessible name and placeholder are supplied by the consumer.",
-      "dependencies": ["@base-ui/react@^1.9.0"],
-      "registryDependencies": ["@conteman/utils", "@conteman/theme"],
-      "files": [{ "path": "registry/ui/input.tsx", "type": "registry:ui" }]
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "forms"
+      ]
     },
     {
-      "name": "table", "type": "registry:ui", "title": "Table",
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
       "description": "Composable semantic table with horizontal overflow containment.",
-      "registryDependencies": ["@conteman/utils", "@conteman/theme"],
-      "files": [{ "path": "registry/ui/table.tsx", "type": "registry:ui" }]
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": [
+        "data-display"
+      ],
+      "dependencies": []
     },
     {
-      "name": "data-table", "type": "registry:block", "title": "DataTable",
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "DataTable",
       "description": "Generic client-side table with search, pagination, loading, empty and error states. All text comes from props.",
-      "dependencies": ["@tanstack/react-table@^8.21.3"],
-      "registryDependencies": ["@conteman/button", "@conteman/input", "@conteman/table"],
-      "files": [{ "path": "registry/blocks/data-table.tsx", "type": "registry:component" }]
+      "dependencies": [
+        "@tanstack/react-table@8.21.3",
+        "lucide-react@1.52.0"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/input",
+        "@conteman/checkbox",
+        "@conteman/popover",
+        "@conteman/table"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/data-table.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "data-display"
+      ]
     },
     {
-      "name": "theme", "type": "registry:theme", "title": "Conteman theme",
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Conteman theme",
       "description": "Neutral light and dark CSS variables for Tailwind CSS 4.",
       "cssVars": {
         "light": {
-          "background": "oklch(1 0 0)", "foreground": "oklch(0.145 0 0)",
-          "card": "oklch(1 0 0)", "card-foreground": "oklch(0.145 0 0)",
-          "popover": "oklch(1 0 0)", "popover-foreground": "oklch(0.145 0 0)",
-          "primary": "oklch(0.205 0 0)", "primary-foreground": "oklch(0.985 0 0)",
-          "secondary": "oklch(0.97 0 0)", "secondary-foreground": "oklch(0.205 0 0)",
-          "muted": "oklch(0.97 0 0)", "muted-foreground": "oklch(0.50 0 0)",
-          "accent": "oklch(0.97 0 0)", "accent-foreground": "oklch(0.205 0 0)",
-          "destructive": "oklch(0.505 0.213 27.518)", "border": "oklch(0.922 0 0)",
-          "input": "oklch(0.80 0 0)", "ring": "oklch(0.50 0 0)", "radius": "0rem"
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.50 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.505 0.213 27.518)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.80 0 0)",
+          "ring": "oklch(0.50 0 0)",
+          "radius": "0rem",
+          "chart-1": "oklch(0.55 0.18 260)",
+          "chart-2": "oklch(0.5 0.13 165)",
+          "chart-3": "oklch(0.65 0.15 70)",
+          "chart-4": "oklch(0.6 0.17 310)",
+          "chart-5": "oklch(0.6 0.18 30)",
+          "sidebar": "oklch(1 0 0)",
+          "sidebar-foreground": "oklch(0.145 0 0)",
+          "sidebar-primary": "oklch(0.205 0 0)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.97 0 0)",
+          "sidebar-accent-foreground": "oklch(0.205 0 0)",
+          "sidebar-border": "oklch(0.922 0 0)",
+          "sidebar-ring": "oklch(0.50 0 0)"
         },
         "dark": {
-          "background": "oklch(0.145 0 0)", "foreground": "oklch(0.985 0 0)",
-          "card": "oklch(0.205 0 0)", "card-foreground": "oklch(0.985 0 0)",
-          "popover": "oklch(0.205 0 0)", "popover-foreground": "oklch(0.985 0 0)",
-          "primary": "oklch(0.922 0 0)", "primary-foreground": "oklch(0.205 0 0)",
-          "secondary": "oklch(0.269 0 0)", "secondary-foreground": "oklch(0.985 0 0)",
-          "muted": "oklch(0.269 0 0)", "muted-foreground": "oklch(0.708 0 0)",
-          "accent": "oklch(0.269 0 0)", "accent-foreground": "oklch(0.985 0 0)",
-          "destructive": "oklch(0.704 0.191 22.216)", "border": "oklch(1 0 0 / 15%)",
-          "input": "oklch(1 0 0 / 30%)", "ring": "oklch(0.708 0 0)"
+          "background": "oklch(0.145 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 15%)",
+          "input": "oklch(1 0 0 / 30%)",
+          "ring": "oklch(0.708 0 0)",
+          "chart-1": "oklch(0.7 0.15 260)",
+          "chart-2": "oklch(0.73 0.13 165)",
+          "chart-3": "oklch(0.65 0.15 70)",
+          "chart-4": "oklch(0.6 0.17 310)",
+          "chart-5": "oklch(0.6 0.18 30)",
+          "sidebar": "oklch(0.205 0 0)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.922 0 0)",
+          "sidebar-primary-foreground": "oklch(0.205 0 0)",
+          "sidebar-accent": "oklch(0.269 0 0)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 15%)",
+          "sidebar-ring": "oklch(0.708 0 0)"
         }
-      }
+      },
+      "categories": [
+        "theme"
+      ],
+      "registryDependencies": [],
+      "css": {
+        "@import \"tw-animate-css\"": {}
+      },
+      "dependencies": [
+        "tw-animate-css@1.4.0"
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "basics"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "basics"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "basics"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "basics"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "basics"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "NativeSelect",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/input-group"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "RadioGroup",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/label",
+        "@conteman/separator"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "InputGroup",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/input",
+        "@conteman/textarea"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "select-field",
+      "type": "registry:block",
+      "title": "SelectField",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/select"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/select-field.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "date-range-picker",
+      "type": "registry:block",
+      "title": "DateRangePicker",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/input",
+        "@conteman/label",
+        "@conteman/calendar",
+        "@conteman/popover"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/date-range-picker.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "recharts@3.8.0"
+      ]
+    },
+    {
+      "name": "trend",
+      "type": "registry:block",
+      "title": "Trend",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/chart",
+        "@conteman/empty"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/trend.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "recharts@3.8.0"
+      ]
+    },
+    {
+      "name": "detail",
+      "type": "registry:block",
+      "title": "Detail",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/badge",
+        "@conteman/tooltip",
+        "@conteman/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/detail.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/separator"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "data-display"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "AlertDialog",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "DropdownMenu",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "overlays"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "sonner@2.0.8",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/use-mobile",
+        "@conteman/button",
+        "@conteman/input",
+        "@conteman/separator",
+        "@conteman/sheet",
+        "@conteman/skeleton",
+        "@conteman/tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:block",
+      "title": "SegmentedControl",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/toggle-group"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/segmented-control.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "ToggleGroup",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/toggle"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "class-variance-authority@0.7.1"
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@base-ui/react@1.9.0",
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "settings-layout",
+      "type": "registry:block",
+      "title": "SettingsLayout",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "navigation"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/field",
+        "@conteman/popover",
+        "@conteman/tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/settings-layout.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
+      "name": "list-page",
+      "type": "registry:block",
+      "title": "ListPage",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "patterns"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/list-page.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "settings-page",
+      "type": "registry:block",
+      "title": "SettingsPage",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "patterns"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/settings-layout",
+        "@conteman/button"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/settings-page.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "edit-sheet",
+      "type": "registry:block",
+      "title": "EditSheet",
+      "description": "Composable React component. All user-facing text is supplied by the consumer.",
+      "categories": [
+        "patterns"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/sheet",
+        "@conteman/button"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/edit-sheet.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "Mobile breakpoint",
+      "categories": [
+        "utilities"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/hooks/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "calendar",
+      "title": "Calendar",
+      "description": "Calendar grid with caller-supplied locale and accessible labels.",
+      "type": "registry:ui",
+      "categories": [
+        "forms"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button"
+      ],
+      "dependencies": [
+        "react-day-picker@10.0.2",
+        "lucide-react@1.52.0"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

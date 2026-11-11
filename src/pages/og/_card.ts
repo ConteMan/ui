@@ -13,7 +13,7 @@
 import { createCardRenderer, type CardNode, type CardTypography } from "@cloudflare/nimbus-docs/og";
 import { root } from "astro:config/server";
 
-import { logo } from "@/components/logo";
+import { logo } from "@docs/components/logo";
 
 // The starter's light theme (src/styles/globals.css), in hex for Satori.
 const FOREGROUND = "#171717";
