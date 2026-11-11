@@ -1,0 +1,68 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "conteman",
+  "homepage": "https://ui.conteman.com",
+  "items": [
+    {
+      "name": "utils", "type": "registry:lib", "title": "Class utilities",
+      "description": "Merge conditional Tailwind class names.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [{ "path": "registry/lib/utils.ts", "type": "registry:lib" }]
+    },
+    {
+      "name": "button", "type": "registry:ui", "title": "Button",
+      "description": "Base UI button with Lyra variants and sizes. Text is provided by the consumer.",
+      "dependencies": ["@base-ui/react@^1.9.0", "class-variance-authority"],
+      "registryDependencies": ["@conteman/utils", "@conteman/theme"],
+      "files": [{ "path": "registry/ui/button.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "input", "type": "registry:ui", "title": "Input",
+      "description": "Base UI input. Accessible name and placeholder are supplied by the consumer.",
+      "dependencies": ["@base-ui/react@^1.9.0"],
+      "registryDependencies": ["@conteman/utils", "@conteman/theme"],
+      "files": [{ "path": "registry/ui/input.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "table", "type": "registry:ui", "title": "Table",
+      "description": "Composable semantic table with horizontal overflow containment.",
+      "registryDependencies": ["@conteman/utils", "@conteman/theme"],
+      "files": [{ "path": "registry/ui/table.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "data-table", "type": "registry:block", "title": "DataTable",
+      "description": "Generic client-side table with search, pagination, loading, empty and error states. All text comes from props.",
+      "dependencies": ["@tanstack/react-table@^8.21.3"],
+      "registryDependencies": ["@conteman/button", "@conteman/input", "@conteman/table"],
+      "files": [{ "path": "registry/blocks/data-table.tsx", "type": "registry:component" }]
+    },
+    {
+      "name": "theme", "type": "registry:theme", "title": "Conteman theme",
+      "description": "Neutral light and dark CSS variables for Tailwind CSS 4.",
+      "cssVars": {
+        "light": {
+          "background": "oklch(1 0 0)", "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)", "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)", "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)", "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)", "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)", "muted-foreground": "oklch(0.50 0 0)",
+          "accent": "oklch(0.97 0 0)", "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.505 0.213 27.518)", "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.80 0 0)", "ring": "oklch(0.50 0 0)", "radius": "0rem"
+        },
+        "dark": {
+          "background": "oklch(0.145 0 0)", "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)", "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)", "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)", "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)", "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)", "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)", "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)", "border": "oklch(1 0 0 / 15%)",
+          "input": "oklch(1 0 0 / 30%)", "ring": "oklch(0.708 0 0)"
+        }
+      }
+    }
+  ]
+}

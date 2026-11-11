@@ -1,0 +1,43 @@
+---
+title: Conteman theme
+description: One set of CSS variables for light mode, dark mode and Tailwind CSS 4.
+---
+
+import ThemeDemo from "../../../components/demos/ThemeDemo";
+
+## Live preview
+
+Use the header switch or the button below. Color swatches and React components change together.
+
+<ThemeDemo locale="en" client:visible />
+
+## Install
+
+```sh
+npx shadcn add @conteman/theme
+```
+
+Configure `"@conteman": "https://ui.conteman.com/r/{name}.json"` in `components.json` first. Button, Input and Table install this `registry:theme` dependency automatically. Installing the theme updates existing variables; review the changes.
+
+## Enable dark mode
+
+The shadcn initializer prepares Tailwind CSS 4 theme mappings. Keep the following in the entry stylesheet:
+
+```css
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+Toggle `.dark` on the root element to use the installed variables:
+
+```ts
+document.documentElement.classList.toggle("dark");
+```
+
+## Tokens
+
+The theme includes background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and paired foreground colors. Components use square corners. Values live in the `cssVars.light` and `cssVars.dark` fields in `registry.json`.
+
+## Nimbus integration
+
+Nimbus ships persistent light/dark switching and system-theme support using `data-mode="dark"`. The docs scope registry tokens to `.conteman-preview` and map Nimbus color variables to those tokens. Base UI portals carry the same scope. The bridge CSS is generated from the registry theme; installed components use standard `.dark` without a docs dependency.

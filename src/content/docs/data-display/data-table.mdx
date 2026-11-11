@@ -1,0 +1,59 @@
+---
+title: DataTable
+description: 表格、工具栏搜索与分页组成一个可复制的列表。所有文案由你提供。
+---
+
+import DataTableDemo from "../../../components/demos/DataTableDemo";
+
+## 实时示例
+
+搜索组件名称、分类或状态；使用分页浏览结果。上方切换器可查看加载、空状态、错误及重试。
+
+<DataTableDemo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置 registry。
+
+```sh
+npx shadcn add @conteman/data-table
+```
+
+自动安装 `@conteman/button`、`@conteman/input`、`@conteman/table` 及其工具函数和主题，另安装 TanStack Table 8。
+
+## 使用
+
+```tsx
+import { DataTable } from "@/components/data-table";
+import type { ColumnDef } from "@tanstack/react-table";
+
+type Item = { name: string };
+const columns: ColumnDef<Item>[] = [{ accessorKey: "name", header: "名称" }];
+const data: Item[] = [{ name: "Button" }, { name: "DataTable" }];
+
+export function List() {
+  return (
+    <DataTable
+      data={data}
+      columns={columns}
+      pageSize={5}
+      labels={{
+        table: "组件清单", search: "搜索组件", searchPlaceholder: "输入名称…",
+        pagination: "表格分页", previous: "上一页", next: "下一页",
+        empty: "没有结果", loading: "正在加载…",
+        range: (start, end, total) => `第 ${start}–${end} 条，共 ${total} 条`,
+      }}
+    />
+  );
+}
+```
+
+## 状态与边界
+
+- `loading`：显示 `labels.loading`，禁用搜索与分页，并设置 `aria-busy`。
+- `error`：接收任意 React 内容，可组合错误文案和重试按钮。错误时保留已有数据，并禁用分页。
+- `labels.empty`：显示空集合或搜索无结果的提示。
+- `toolbar`：插入调用方提供的工具栏操作。
+- `pageSize`：每页条数，默认 5。过滤或数据缩短时不会停在失效页码。
+
+这个样板使用客户端搜索与分页，适合小型本地数据集。服务端分页、排序、行选择和持久化列配置不在本次样板范围内。较宽的表格在自身容器内滚动。

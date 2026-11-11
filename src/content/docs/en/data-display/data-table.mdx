@@ -1,0 +1,52 @@
+---
+title: DataTable
+description: A composable table with toolbar search, pagination and text supplied through props.
+---
+
+import DataTableDemo from "../../../../components/demos/DataTableDemo";
+
+## Live example
+
+Search names, categories or statuses. Page through the results and try loading, empty and error states, including retry.
+
+<DataTableDemo locale="en" client:visible />
+
+## Install
+
+Configure the registry using the [introduction](/en/).
+
+```sh
+npx shadcn add @conteman/data-table
+```
+
+Installs Button, Input, Table, class utilities, the theme and TanStack Table 8 through registry dependencies.
+
+## Usage
+
+```tsx
+import { DataTable } from "@/components/data-table";
+import type { ColumnDef } from "@tanstack/react-table";
+
+type Item = { name: string };
+const columns: ColumnDef<Item>[] = [{ accessorKey: "name", header: "Name" }];
+const data: Item[] = [{ name: "Button" }, { name: "DataTable" }];
+
+export function List() {
+  return <DataTable data={data} columns={columns} pageSize={5} labels={{
+    table: "Components", search: "Search components", searchPlaceholder: "Search names…",
+    pagination: "Table pagination", previous: "Previous", next: "Next",
+    empty: "No results", loading: "Loading…",
+    range: (start, end, total) => `${start}–${end} of ${total}`,
+  }} />;
+}
+```
+
+## States and boundaries
+
+- `loading` renders `labels.loading`, disables search and pagination, and sets `aria-busy`.
+- `error` accepts React content, including a retry button. Existing rows remain visible while pagination is disabled.
+- `labels.empty` covers both empty input data and search with no matches.
+- `toolbar` adds caller-supplied actions.
+- `pageSize` defaults to 5. Search resets pagination and shrinking data cannot leave a stale page index.
+
+This sample filters and paginates in memory. Server pagination, sorting, selection and persisted column preferences are outside its scope. Wide tables scroll within their container.

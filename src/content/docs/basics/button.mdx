@@ -1,0 +1,42 @@
+---
+title: Button
+description: 六种变体、八种尺寸。保留语义、键盘操作和你的文案。
+---
+
+import ButtonDemo from "../../../components/demos/ButtonDemo";
+
+## 实时示例
+
+点击按钮试试。打开弹层后，可用 Tab 切换焦点、Escape 关闭；关闭后焦点回到触发按钮。
+
+<ButtonDemo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置 `components.json` 中的 `@conteman` registry。
+
+```sh
+npx shadcn add @conteman/button
+```
+
+自动安装 `@base-ui/react`、`class-variance-authority`、工具函数和主题。
+
+## 使用
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function SaveButton() {
+  return <Button variant="outline" onClick={() => console.log("save")}>保存更改</Button>;
+}
+```
+
+`variant` 支持 `default`、`outline`、`secondary`、`ghost`、`destructive`、`link`。
+
+`size` 支持 `default`、`xs`、`sm`、`lg`、`icon`、`icon-xs`、`icon-sm`、`icon-lg`。紧凑尺寸用于密集桌面布局；触屏操作区域应至少为 44px。
+
+## 状态与可访问性
+
+使用 `disabled` 表达不可用状态；异步操作同时传入 `aria-busy` 和 `disabled`，并由调用方提供加载文案。图标按钮必须传 `aria-label`。所有文字通过 `children` 或 props 传入。
+
+实时示例是 MDX 内的 React island，使用 `client:visible` 激活。弹层直接使用 Base UI Dialog 验证 Portal 与焦点管理，不包含在 Button 安装项内。

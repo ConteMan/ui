@@ -1,0 +1,39 @@
+---
+title: 开始使用
+description: 组件属于你的项目。安装源码，再组合成自己的界面。
+---
+
+Conteman UI 是基于 Base UI 与 Tailwind CSS 4 的 React 组件仓库。通过 shadcn CLI 安装源码，文案和行为由你的项目控制。
+
+## 配置组件仓库
+
+先准备 React + Tailwind CSS 4 项目，并运行 `npx shadcn@4.23.0 init`。在生成的 `components.json` 中加入命名空间：
+
+```json
+{
+  "registries": {
+    "@conteman": "https://ui.conteman.com/r/{name}.json"
+  }
+}
+```
+
+## 安装组件
+
+```sh
+npx shadcn add @conteman/button
+npx shadcn add @conteman/data-table
+```
+
+DataTable 会自动安装 Button、Input、Table、工具函数、TanStack Table 8 与浅深色主题。不需要逐个添加依赖组件。已有主题会被安装器更新，执行前请检查工作区差异。
+
+## 从一个例子开始
+
+- [Button](/basics/button/)：变体、禁用、加载与 Base UI 弹层。
+- [DataTable](/data-display/data-table/)：搜索、分页、空状态与错误恢复。
+- [主题](/theme/)：浅深色 CSS 变量与 Tailwind CSS 4 配置。
+
+这批样板只提供上述组件；侧栏保留后续分类入口，空分类暂未提供组件。
+
+## 给 Agent 使用
+
+每页都提供 Markdown。[llms.txt](/llms.txt) 列出文档入口，[Agent Skill 索引](/.well-known/agent-skills/index.json) 提供可下载的安装指引。文档也有[英文版本](/en/)。

@@ -1,0 +1,42 @@
+---
+title: Button
+description: Six variants and eight sizes, with semantic behavior and text you control.
+---
+
+import ButtonDemo from "../../../../components/demos/ButtonDemo";
+
+## Live example
+
+Click a button, try the saving state, or open the dialog. Tab stays within the dialog, Escape closes it, and focus returns to its trigger.
+
+<ButtonDemo locale="en" client:visible />
+
+## Install
+
+Configure `@conteman` in `components.json` as shown in the [introduction](/en/).
+
+```sh
+npx shadcn add @conteman/button
+```
+
+Installs Base UI, class-variance-authority, class utilities and the theme automatically.
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function SaveButton() {
+  return <Button variant="outline" onClick={() => console.log("save")}>Save changes</Button>;
+}
+```
+
+`variant`: `default`, `outline`, `secondary`, `ghost`, `destructive`, `link`.
+
+`size`: `default`, `xs`, `sm`, `lg`, `icon`, `icon-xs`, `icon-sm`, `icon-lg`. Compact sizes serve dense desktop layouts; use touch targets of at least 44px for touch interactions.
+
+## States and accessibility
+
+Pass `disabled` for unavailable actions. For asynchronous work, pass `aria-busy`, `disabled` and your loading text. Icon-only buttons need an accessible name via `aria-label`. All text comes from children or props.
+
+The MDX example hydrates as a React island with `client:visible`. Its dialog uses Base UI directly to verify portals and focus management; the dialog is not part of the Button registry item.

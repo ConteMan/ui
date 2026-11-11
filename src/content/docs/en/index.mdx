@@ -1,0 +1,39 @@
+---
+title: Introduction
+description: Components belong in your project. Install the source, then compose your interface.
+---
+
+Conteman UI is a React component registry built on Base UI and Tailwind CSS 4. Install editable source with the shadcn CLI. Your project owns the text and behavior.
+
+## Configure the registry
+
+Start with React and Tailwind CSS 4. Run `npx shadcn@4.23.0 init`, then add this namespace to `components.json`:
+
+```json
+{
+  "registries": {
+    "@conteman": "https://ui.conteman.com/r/{name}.json"
+  }
+}
+```
+
+## Install a component
+
+```sh
+npx shadcn add @conteman/button
+npx shadcn add @conteman/data-table
+```
+
+DataTable installs Button, Input, Table, class utilities, TanStack Table 8 and the light/dark theme automatically. The theme updates existing variables; inspect your working tree before accepting those changes.
+
+## Explore the examples
+
+- [Button](/en/basics/button/): variants, disabled and loading states, and a Base UI dialog.
+- [DataTable](/en/data-display/data-table/): search, pagination, empty states and error recovery.
+- [Theme](/en/theme/): light/dark CSS variables for Tailwind CSS 4.
+
+Empty sidebar categories reserve space for future components. This sample only ships the components described above.
+
+## For agents
+
+Every page has a Markdown representation. Use [llms.txt](/llms.txt) for discovery and the [Agent Skill index](/.well-known/agent-skills/index.json) for installation guidance. [中文文档](/).

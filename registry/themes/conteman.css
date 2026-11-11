@@ -1,0 +1,60 @@
+.conteman-preview {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.50 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.505 0.213 27.518);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.80 0 0);
+  --ring: oklch(0.50 0 0);
+  --radius: 0rem;
+  --nb-background: var(--background);
+  --nb-foreground: var(--foreground);
+  --nb-card: var(--card);
+  --nb-card-foreground: var(--card-foreground);
+  --nb-popover: var(--popover);
+  --nb-popover-foreground: var(--popover-foreground);
+  --nb-primary: var(--primary);
+  --nb-primary-foreground: var(--primary-foreground);
+  --nb-secondary: var(--secondary);
+  --nb-secondary-foreground: var(--secondary-foreground);
+  --nb-muted: var(--muted);
+  --nb-muted-foreground: var(--muted-foreground);
+  --nb-accent: var(--accent);
+  --nb-accent-foreground: var(--accent-foreground);
+  --nb-destructive: var(--destructive);
+  --nb-border: var(--border);
+  --nb-input: var(--input);
+  --nb-ring: var(--ring);
+}
+
+[data-mode="dark"] .conteman-preview, .dark .conteman-preview {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 15%);
+  --input: oklch(1 0 0 / 30%);
+  --ring: oklch(0.708 0 0);
+}

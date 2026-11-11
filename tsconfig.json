@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/ui/button": ["./registry/ui/button.tsx"],
+      "@/components/ui/input": ["./registry/ui/input.tsx"],
+      "@/components/ui/table": ["./registry/ui/table.tsx"],
+      "@registry/*": ["./registry/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}
