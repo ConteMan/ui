@@ -1,0 +1,86 @@
+---
+title: Field
+description: 可组合的 Field，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/FieldDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/field
+```
+
+## Props
+
+| 参数          | 行为                                                                   |
+| ------------- | ---------------------------------------------------------------------- |
+| `orientation` | horizontal / vertical；Field 另支持 responsive；按组件决定布局或方向。 |
+| `children`    | ReactNode，调用方提供的组合内容。                                      |
+| `errors`      | Array&lt;message?&gt;；去重并显示错误，也可通过 children 自定义。      |
+
+导出：`Field`、`FieldLabel`、`FieldDescription`、`FieldError`、`FieldGroup`、`FieldLegend`、`FieldSeparator`、`FieldSet`、`FieldContent`、`FieldTitle`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useId, useState } from "react";
+import * as UI from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+
+  return (
+    <div
+      id="preview"
+      data-demo="field"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.FieldSet>
+        <UI.FieldLegend>{text("个人资料", "Profile")}</UI.FieldLegend>
+        <UI.FieldDescription>
+          {text(
+            "示例表单，不会提交数据。",
+            "Illustrative form; no data is sent.",
+          )}
+        </UI.FieldDescription>
+        <UI.FieldGroup>
+          <UI.Field>
+            <UI.FieldLabel htmlFor={id}>{text("名称", "Name")}</UI.FieldLabel>
+            <Input id={id} defaultValue="Alex" />
+          </UI.Field>
+          <UI.Field data-invalid>
+            <UI.FieldLabel htmlFor={id + "-invalid"}>
+              {text("别名", "Alias")}
+            </UI.FieldLabel>
+            <Input
+              id={id + "-invalid"}
+              aria-invalid="true"
+              aria-describedby={id + "-error"}
+              defaultValue="!"
+            />
+            <UI.FieldError id={id + "-error"}>
+              {text("至少两个字符", "At least two characters")}
+            </UI.FieldError>
+          </UI.Field>
+        </UI.FieldGroup>
+      </UI.FieldSet>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

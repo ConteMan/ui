@@ -1,0 +1,86 @@
+---
+title: Field
+description: Composable Field built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/FieldDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/field
+```
+
+## Props
+
+| Property      | Behavior                                                                             |
+| ------------- | ------------------------------------------------------------------------------------ |
+| `orientation` | horizontal / vertical; Field also supports responsive; controls layout or direction. |
+| `children`    | ReactNode content provided by the caller.                                            |
+| `errors`      | Array&lt;message?&gt;; deduplicated errors, or override with children.               |
+
+Exports：`Field`、`FieldLabel`、`FieldDescription`、`FieldError`、`FieldGroup`、`FieldLegend`、`FieldSeparator`、`FieldSet`、`FieldContent`、`FieldTitle`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useId, useState } from "react";
+import * as UI from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+
+  return (
+    <div
+      id="preview"
+      data-demo="field"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.FieldSet>
+        <UI.FieldLegend>{text("个人资料", "Profile")}</UI.FieldLegend>
+        <UI.FieldDescription>
+          {text(
+            "示例表单，不会提交数据。",
+            "Illustrative form; no data is sent.",
+          )}
+        </UI.FieldDescription>
+        <UI.FieldGroup>
+          <UI.Field>
+            <UI.FieldLabel htmlFor={id}>{text("名称", "Name")}</UI.FieldLabel>
+            <Input id={id} defaultValue="Alex" />
+          </UI.Field>
+          <UI.Field data-invalid>
+            <UI.FieldLabel htmlFor={id + "-invalid"}>
+              {text("别名", "Alias")}
+            </UI.FieldLabel>
+            <Input
+              id={id + "-invalid"}
+              aria-invalid="true"
+              aria-describedby={id + "-error"}
+              defaultValue="!"
+            />
+            <UI.FieldError id={id + "-error"}>
+              {text("至少两个字符", "At least two characters")}
+            </UI.FieldError>
+          </UI.Field>
+        </UI.FieldGroup>
+      </UI.FieldSet>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

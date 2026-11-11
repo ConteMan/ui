@@ -1,0 +1,29 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-range-picker",
+  "title": "DateRangePicker",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [
+    "lucide-react@1.52.0"
+  ],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/button",
+    "@conteman/input",
+    "@conteman/label",
+    "@conteman/calendar",
+    "@conteman/popover"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/date-range-picker.tsx",
+      "content": "import { useId, useState, type ReactNode, type ComponentProps } from \"react\";\nimport { CalendarIcon } from \"lucide-react\";\nimport { Button } from \"@/components/ui/button\";\nimport { Input } from \"@/components/ui/input\";\nimport { Label } from \"@/components/ui/label\";\nimport { Calendar } from \"@/components/ui/calendar\";\nimport {\n  Popover,\n  PopoverContent,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\";\n\nexport type DateRange = { from: string; until: string };\nexport type DateRangeLabels = {\n  trigger: string;\n  from: string;\n  until: string;\n  apply: string;\n  clear: string;\n  invalid: string;\n  reversed: string;\n  hint?: ReactNode;\n};\nexport function DateRangePicker({\n  from,\n  until,\n  onChange,\n  labels,\n  dateOnly = true,\n  disabled = false,\n  validate,\n  calendar,\n}: DateRange & {\n  onChange: (range: DateRange) => void;\n  labels: DateRangeLabels;\n  dateOnly?: boolean;\n  disabled?: boolean;\n  validate?: (range: DateRange) => string | undefined;\n  calendar?: Pick<\n    ComponentProps<typeof Calendar>,\n    \"locale\" | \"labels\" | \"weekStartsOn\"\n  >;\n}) {\n  const id = useId();\n  const [open, setOpen] = useState(false);\n  const [draft, setDraft] = useState({ from, until });\n  const valid = (value: string) => {\n    if (!value) return true;\n    const date = new Date(dateOnly ? `${value}T00:00:00Z` : value);\n    return (\n      Number.isFinite(date.getTime()) &&\n      (!dateOnly || date.toISOString().slice(0, 10) === value)\n    );\n  };\n  const error =\n    !valid(draft.from) || !valid(draft.until)\n      ? labels.invalid\n      : draft.from && draft.until && draft.from > draft.until\n        ? labels.reversed\n        : validate?.(draft);\n  return (\n    <Popover\n      open={open}\n      onOpenChange={(next) => {\n        if (next) setDraft({ from, until });\n        setOpen(next);\n      }}\n    >\n      <PopoverTrigger\n        render={\n          <Button variant=\"outline\" disabled={disabled} className=\"min-h-11\" />\n        }\n      >\n        <CalendarIcon aria-hidden=\"true\" />\n        {labels.trigger}\n        {(from || until) && <span className=\"ml-2\">1</span>}\n      </PopoverTrigger>\n      <PopoverContent\n        className=\"w-[22rem] max-w-[calc(100vw-2rem)]\"\n        align=\"start\"\n      >\n        <PopoverTitle>{labels.trigger}</PopoverTitle>\n        {labels.hint && (\n          <div className=\"text-xs text-muted-foreground\">{labels.hint}</div>\n        )}\n        {calendar && dateOnly && (\n          <Calendar\n            {...calendar}\n            mode=\"range\"\n            className=\"mx-auto [--cell-size:min(2.75rem,calc((100vw-4.5rem)/7))]\"\n            selected={{\n              from:\n                draft.from && valid(draft.from)\n                  ? new Date(`${draft.from}T12:00:00`)\n                  : undefined,\n              to:\n                draft.until && valid(draft.until)\n                  ? new Date(`${draft.until}T12:00:00`)\n                  : undefined,\n            }}\n            onSelect={(range) => {\n              const stamp = (date: Date | undefined) =>\n                date\n                  ? `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, \"0\")}-${String(date.getDate()).padStart(2, \"0\")}`\n                  : \"\";\n              setDraft({ from: stamp(range?.from), until: stamp(range?.to) });\n            }}\n          />\n        )}\n        <form\n          className=\"grid gap-3\"\n          onSubmit={(event) => {\n            event.preventDefault();\n            if (!error) {\n              onChange(draft);\n              setOpen(false);\n            }\n          }}\n        >\n          {([\"from\", \"until\"] as const).map((key) => (\n            <div key={key} className=\"grid gap-1\">\n              <Label htmlFor={`${id}-${key}`}>{labels[key]}</Label>\n              <Input\n                id={`${id}-${key}`}\n                type={dateOnly ? \"date\" : \"datetime-local\"}\n                className=\"min-h-11\"\n                value={draft[key]}\n                aria-invalid={Boolean(error)}\n                aria-describedby={error ? `${id}-error` : undefined}\n                onChange={(event) =>\n                  setDraft({ ...draft, [key]: event.target.value })\n                }\n              />\n            </div>\n          ))}\n          {error && (\n            <div id={`${id}-error`} role=\"alert\" className=\"text-destructive\">\n              {error}\n            </div>\n          )}\n          <div className=\"flex justify-end gap-2\">\n            <Button\n              type=\"button\"\n              variant=\"ghost\"\n              onClick={() => {\n                setDraft({ from: \"\", until: \"\" });\n                onChange({ from: \"\", until: \"\" });\n              }}\n            >\n              {labels.clear}\n            </Button>\n            <Button type=\"submit\" disabled={Boolean(error)}>\n              {labels.apply}\n            </Button>\n          </div>\n        </form>\n      </PopoverContent>\n    </Popover>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "type": "registry:block"
+}

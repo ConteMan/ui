@@ -1,0 +1,30 @@
+---
+title: Calendar
+description: Keyboard-accessible calendar with explicit locale and labels.
+---
+
+import CalendarDemo from "../../../../components/demos/CalendarDemo";
+
+## Live example
+
+<CalendarDemo client:visible locale="en" />
+
+## Install
+
+```sh
+npx shadcn add @conteman/calendar
+```
+
+## Props
+
+| Property                  | Behavior                                   |
+| ------------------------- | ------------------------------------------ |
+| `mode`                    | single / multiple / range                  |
+| `selected / onSelect`     | Controlled date or range.                  |
+| `locale / labels`         | Pass date-fns locale and DayPicker labels. |
+| `disabled`                | DayPicker matchers for disabled dates.     |
+| `classNames / components` | Style and component overrides.             |
+
+## Usage and states
+
+Import Calendar from the installed UI directory. Supply selected and onSelect for controlled state. Native DayPicker props support disabled dates, range selection and keyboard navigation. All localized day names and navigation labels come from locale and labels.

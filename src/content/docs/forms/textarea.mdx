@@ -1,0 +1,71 @@
+---
+title: Textarea
+description: 可组合的 Textarea，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/TextareaDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/textarea
+```
+
+## Props
+
+| 参数                   | 行为                                                           |
+| ---------------------- | -------------------------------------------------------------- |
+| `value / defaultValue` | 沿用底层组件的受控值或初始默认值。                             |
+| `rows`                 | number；原生 textarea 可见行数。                               |
+| `disabled`             | boolean；禁用交互，默认 false。                                |
+| `aria-invalid`         | boolean；错误时设置 true，并用 aria-describedby 关联错误内容。 |
+
+导出：`Textarea`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useId } from "react";
+import * as UI from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+  return (
+    <div
+      id="preview"
+      data-demo="textarea"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="grid gap-3">
+        <Label htmlFor={id}>{text("备注", "Notes")}</Label>
+        <UI.Textarea id={id} placeholder={text("补充说明…", "Add details…")} />
+        <UI.Textarea
+          aria-label={text("禁用备注", "Disabled notes")}
+          disabled
+          defaultValue={text("不可编辑", "Read only")}
+        />
+        <UI.Textarea
+          aria-label={text("错误备注", "Invalid notes")}
+          aria-invalid="true"
+          defaultValue="!"
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

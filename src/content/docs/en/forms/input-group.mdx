@@ -1,0 +1,73 @@
+---
+title: InputGroup
+description: Composable InputGroup built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/InputGroupDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/input-group
+```
+
+## Props
+
+| Property       | Behavior                                                                               |
+| -------------- | -------------------------------------------------------------------------------------- |
+| `align`        | inline-start / inline-end / block-start / block-end; addon placement.                  |
+| `children`     | ReactNode content provided by the caller.                                              |
+| `aria-invalid` | boolean; set true for invalid input and associate error content with aria-describedby. |
+
+Exports：`InputGroup`、`InputGroupAddon`、`InputGroupButton`、`InputGroupText`、`InputGroupInput`、`InputGroupTextarea`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import * as UI from "@/components/ui/input-group";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="input-group"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="grid gap-3">
+        <UI.InputGroup>
+          <UI.InputGroupAddon>@</UI.InputGroupAddon>
+          <UI.InputGroupInput
+            aria-label={text("用户名", "User name")}
+            placeholder={text("输入名称…", "Enter a name…")}
+          />
+          <UI.InputGroupAddon align="inline-end">
+            <UI.InputGroupText>.example</UI.InputGroupText>
+          </UI.InputGroupAddon>
+        </UI.InputGroup>
+        <UI.InputGroup data-disabled>
+          <UI.InputGroupInput
+            disabled
+            aria-label={text("不可用", "Unavailable")}
+            value="Example"
+          />
+        </UI.InputGroup>
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

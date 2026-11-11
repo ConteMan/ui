@@ -1,0 +1,30 @@
+---
+title: Calendar
+description: 带显式语言和可访问名称的键盘日历。
+---
+
+import CalendarDemo from "../../../components/demos/CalendarDemo";
+
+## 实时示例
+
+<CalendarDemo client:visible />
+
+## 安装
+
+```sh
+npx shadcn add @conteman/calendar
+```
+
+## Props
+
+| 参数                      | 行为                                    |
+| ------------------------- | --------------------------------------- |
+| `mode`                    | single / multiple / range               |
+| `selected / onSelect`     | 受控日期或范围。                        |
+| `locale / labels`         | 传入 date-fns 语言及 DayPicker labels。 |
+| `disabled`                | DayPicker 日期禁用规则。                |
+| `classNames / components` | 样式与子组件覆盖。                      |
+
+## 使用与状态
+
+从安装后的 UI 目录导入 Calendar；通过 selected 与 onSelect 控制选中状态。沿用 DayPicker 的禁用日期、范围选择和键盘导航。日期名称与导航名称由 locale 和 labels 提供。

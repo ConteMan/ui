@@ -1,0 +1,80 @@
+---
+title: DateRangePicker
+description: Choose calendar date ranges; callers own time zones and request boundaries.
+---
+
+import Demo from "../../../../components/demos/DateRangePickerDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/date-range-picker
+```
+
+## Props
+
+| Property       | Behavior                                                                   |
+| -------------- | -------------------------------------------------------------------------- |
+| `from / until` | string; YYYY-MM-DD dates; use empty strings for unset bounds.              |
+| `onChange`     | Change or submit callback; application owns side effects.                  |
+| `labels`       | Required text object for accessible names, feedback and actions.           |
+| `dateOnly`     | boolean, default true; false uses local date-time without zone conversion. |
+| `validate`     | Optional validation function returning an error string or undefined.       |
+
+Exports：`DateRange`、`DateRangeLabels`、`DateRangePicker`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/date-range-picker";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [range, setRange] = useState({ from: "", until: "" });
+  return (
+    <div
+      id="preview"
+      data-demo="date-range-picker"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.DateRangePicker
+        from={range.from}
+        until={range.until}
+        onChange={setRange}
+        labels={{
+          trigger: text("日期范围", "Date range"),
+          from: text("开始日期", "Start date"),
+          until: text("结束日期（包含）", "End date (inclusive)"),
+          apply: text("应用", "Apply"),
+          clear: text("清除", "Clear"),
+          invalid: text("请输入有效日期", "Enter valid dates"),
+          reversed: text("结束日期不能早于开始日期", "End must follow start"),
+          hint: text(
+            "保留日历日期，时区转换由调用方完成。",
+            "Calendar dates; the caller converts time zones.",
+          ),
+        }}
+      />
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
+
+Date boundaries are inclusive calendar labels. The application converts them to API timestamps. The native date input uses the browser locale; pass labels and validate for application semantics.
+
+Optional calendar takes locale, labels and weekStartsOn to enable calendar range selection. dateOnly defaults to true; from/until use YYYY-MM-DD with an inclusive end. false uses local datetime-local strings. The caller converts time zones and API boundaries. An error returned by validate blocks submission.

@@ -1,0 +1,75 @@
+---
+title: SelectField
+description: Composable SelectField built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/SelectFieldDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/select-field
+```
+
+## Props
+
+| Property               | Behavior                                                                 |
+| ---------------------- | ------------------------------------------------------------------------ |
+| `options`              | Options with value, label and optional disabled.                         |
+| `value / defaultValue` | Controlled state or initial default state from the underlying primitive. |
+| `onValueChange`        | Change or submit callback; application owns side effects.                |
+| `aria-label`           | Caller-supplied text or accessible name; no built-in copy.               |
+
+Exports：`SelectField`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/select-field";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [choice, setChoice] = useState("weekly");
+  return (
+    <div
+      id="preview"
+      data-demo="select-field"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="grid gap-3">
+        <UI.SelectField
+          aria-label={text("频率", "Frequency")}
+          value={choice}
+          onValueChange={setChoice}
+          options={[
+            { value: "weekly", label: text("每周", "Weekly") },
+            { value: "daily", label: text("每日", "Daily") },
+          ]}
+        />
+        <UI.SelectField
+          disabled
+          aria-label={text("不可用", "Unavailable")}
+          options={[{ value: "weekly", label: text("每周", "Weekly") }]}
+          defaultValue="weekly"
+        />
+        <p role="status">{choice}</p>
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

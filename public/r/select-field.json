@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "select-field",
+  "title": "SelectField",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/select"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/select-field.tsx",
+      "content": "// Project composition of the generated Select; generated UI files stay unchanged.\nimport type { ReactNode } from \"react\";\nimport {\n  Select,\n  SelectContent,\n  SelectItem,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\";\nexport function SelectField({\n  options,\n  id,\n  name,\n  value,\n  defaultValue,\n  onValueChange,\n  disabled,\n  className,\n  \"aria-label\": label,\n}: {\n  options: { value: string; label: ReactNode; disabled?: boolean }[];\n  id?: string;\n  name?: string;\n  value?: string;\n  defaultValue?: string;\n  onValueChange?: (value: string) => void;\n  disabled?: boolean;\n  className?: string;\n  \"aria-label\"?: string;\n}) {\n  return (\n    <Select\n      items={options}\n      name={name}\n      value={value}\n      defaultValue={defaultValue}\n      onValueChange={(next) => {\n        if (next !== null) onValueChange?.(next);\n      }}\n      disabled={disabled}\n    >\n      <SelectTrigger\n        id={id}\n        data-selected-value={value}\n        aria-label={label}\n        className={className}\n      >\n        <SelectValue />\n      </SelectTrigger>\n      <SelectContent alignItemWithTrigger={false}>\n        {options.map((option) => (\n          <SelectItem\n            key={option.value}\n            value={option.value}\n            disabled={option.disabled}\n            data-choice-value={option.value}\n          >\n            {option.label}\n          </SelectItem>\n        ))}\n      </SelectContent>\n    </Select>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "type": "registry:block"
+}
