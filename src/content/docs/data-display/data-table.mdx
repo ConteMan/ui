@@ -1,59 +1,115 @@
 ---
 title: DataTable
-description: 表格、工具栏搜索与分页组成一个可复制的列表。所有文案由你提供。
+description: 客户端与受控服务端列表，含筛选、排序、列设置与填满高度布局。
 ---
 
 import DataTableDemo from "../../../components/demos/DataTableDemo";
 
 ## 实时示例
 
-搜索组件名称、分类或状态；使用分页浏览结果。上方切换器可查看加载、空状态、错误及重试。
+切换客户端与受控服务端模式，尝试搜索、分类、排序、选择行、列设置和分页。服务端示例用 350ms 延迟模拟响应，刷新期间保留已有行。
 
 <DataTableDemo client:visible />
 
 ## 安装
 
-先按[开始使用](/)配置 registry。
-
 ```sh
 npx shadcn add @conteman/data-table
 ```
 
-自动安装 `@conteman/button`、`@conteman/input`、`@conteman/table` 及其工具函数和主题，另安装 TanStack Table 8。
+自动安装基础组件、工具函数、主题与 TanStack Table 8。
 
-## 使用
+## 客户端用法
 
 ```tsx
 import { DataTable } from "@/components/data-table";
-import type { ColumnDef } from "@tanstack/react-table";
 
-type Item = { name: string };
-const columns: ColumnDef<Item>[] = [{ accessorKey: "name", header: "名称" }];
-const data: Item[] = [{ name: "Button" }, { name: "DataTable" }];
-
-export function List() {
+export function Example() {
   return (
     <DataTable
-      data={data}
-      columns={columns}
-      pageSize={5}
+      data={[{ name: "Button" }, { name: "Input" }]}
+      columns={[{ accessorKey: "name", header: "Name" }]}
       labels={{
-        table: "组件清单", search: "搜索组件", searchPlaceholder: "输入名称…",
-        pagination: "表格分页", previous: "上一页", next: "下一页",
-        empty: "没有结果", loading: "正在加载…",
-        range: (start, end, total) => `第 ${start}–${end} 条，共 ${total} 条`,
+        table: "Components",
+        search: "Search components",
+        searchPlaceholder: "Name…",
+        clearSearch: "Clear search",
+        pagination: "Pages",
+        previous: "Previous",
+        next: "Next",
+        first: "First",
+        last: "Last",
+        pageSize: "Rows",
+        empty: "No results",
+        loading: "Loading…",
+        refreshing: "Refreshing…",
+        range: (start, end, total) => `${start}–${end} / ${total}`,
       }}
+      pageSize={5}
+      searchShortcut
     />
   );
 }
 ```
 
-## 状态与边界
+## 受控服务端用法
 
-- `loading`：显示 `labels.loading`，禁用搜索与分页，并设置 `aria-busy`。
-- `error`：接收任意 React 内容，可组合错误文案和重试按钮。错误时保留已有数据，并禁用分页。
-- `labels.empty`：显示空集合或搜索无结果的提示。
-- `toolbar`：插入调用方提供的工具栏操作。
-- `pageSize`：每页条数，默认 5。过滤或数据缩短时不会停在失效页码。
+持有以下状态，用它们请求服务端，再回传当页数据与过滤后的总数。取消过期请求，避免旧响应覆盖新结果。排序与筛选自动请求第 0 页。
 
-这个样板使用客户端搜索与分页，适合小型本地数据集。服务端分页、排序、行选择和持久化列配置不在本次样板范围内。较宽的表格在自身容器内滚动。
+```tsx
+<DataTable
+  data={response.rows}
+  columns={columns}
+  labels={labels}
+  manualPagination
+  manualSorting
+  manualFiltering
+  rowCount={response.total}
+  pagination={pagination}
+  onPaginationChange={setPagination}
+  sorting={sorting}
+  onSortingChange={setSorting}
+  columnFilters={filters}
+  onColumnFiltersChange={setFilters}
+  globalFilter={search}
+  onGlobalFilterChange={setSearch}
+  loading={initialLoading}
+  refreshing={fetching && !initialLoading}
+/>
+```
+
+## Props
+
+| 参数                                                 | 类型                                        | 行为                                                                                    |
+| ---------------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `data / columns`                                     | `TData[] / ColumnDef<TData>[]`              | 客户端传全量，服务端传当页。                                                            |
+| `labels`                                             | `DataTableLabels`                           | 必填，文案、可访问名称、范围格式器。                                                    |
+| `pagination / onPaginationChange`                    | `PaginationState / OnChangeFn`              | 零起始页码，受控值需配套回调。                                                          |
+| `sorting / onSortingChange`                          | `SortingState / OnChangeFn`                 | 列头切换排序，aria-sort 同步。                                                          |
+| `columnFilters / onColumnFiltersChange`              | `ColumnFiltersState / OnChangeFn`           | 按列筛选，适配 FacetedFilter。                                                          |
+| `globalFilter / onGlobalFilterChange`                | `string / OnChangeFn<string>`               | 全局搜索。                                                                              |
+| `manualPagination / manualSorting / manualFiltering` | `boolean`                                   | 由调用方完成相应处理。                                                                  |
+| `rowCount`                                           | `number`                                    | 服务端过滤后的总行数；省略时按当页数量判断下一页，并用 labels.unknownRange 格式化范围。 |
+| `pageSize / pageSizeOptions`                         | `number / number[]`                         | 本地默认 5；选项默认 10/20/50/100。                                                     |
+| `rowSelection / onRowSelectionChange / getRowId`     | `RowSelectionState / OnChangeFn / function` | 选择状态、回调与稳定行 ID；服务端须提供稳定 ID。                                        |
+| `enableRowSelection`                                 | `boolean`                                   | 当页全选及逐行选择，提供 selectAll/selectRow 名称。                                     |
+| `columnVisibility / onColumnVisibilityChange`        | `VisibilityState / OnChangeFn`              | 列显隐；不可隐藏列保持禁用。                                                            |
+| `columnSizing / onColumnSizingChange`                | `ColumnSizingState / OnChangeFn`            | 列宽；enableColumnResizing 与 labels.resizeColumn 启用指针拖动与键盘滑块。              |
+| `density / onDensityChange`                          | `comfortable / compact`                     | 行密度，可受控。                                                                        |
+| `columnLabels`                                       | `Record<string, string>`                    | 列设置与调整宽度的可读名称。                                                            |
+| `searchDebounceMs / searchShortcut / showSearch`     | `number / boolean / boolean`                | 默认 250ms / false / true。输入法组合期间不查询；/ 忽略编辑区和弹窗。                   |
+| `toolbar`                                            | `ReactNode or (table) => ReactNode`         | 组合筛选器和业务操作。                                                                  |
+| `loading / refreshing / error`                       | `boolean / boolean / ReactNode`             | 首次加载替换行；刷新保留行与已完成范围；错误可包含重试。                                |
+| `fillHeight / className`                             | `boolean / string`                          | 父级需明确高度与 min-height:0，表头吸顶、表体内部滚动。                                 |
+
+## 组合导出
+
+- `FacetedFilter`: `label, value, options, onChange, allLabel, searchLabel, emptyLabel, hint?, disabled?`; 单选维度、选项搜索与数量。
+- `FilterSearch`: `value, onValueChange, label, clearLabel?, debounceMs?, shortcut?`; 可独立使用的防抖搜索。
+- `ViewOptions`: `table, labels, columnLabels?, density?, onDensityChange?, disabled?`; 列显隐、密度、显隐与列宽重置。
+- `DataTablePagination`: `pagination, onPaginationChange, total, count, labels, disabled?, refreshing?, pageSizeOptions?`; 四向分页；first/last/pageSize 文案启用对应控件。
+- `DataTableToolbar / FilterHeading / DataTableActionBar`: 工具栏、筛选标题和批量操作区。ActionBar 接收 label、summary、clearLabel、onClear、children。
+
+## 状态与接入边界
+
+加载禁用搜索与分页；刷新或错误禁用排序和分页。列偏好持久化、URL 查询、请求与重试、业务筛选字段、时区和跨页批量操作由消费项目管理。旧版 P0 labels 可继续使用，新增可选字段启用新控件。

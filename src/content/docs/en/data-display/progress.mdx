@@ -1,0 +1,70 @@
+---
+title: Progress
+description: Composable Progress built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/ProgressDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/progress
+```
+
+## Props
+
+| Property   | Behavior                                                                 |
+| ---------- | ------------------------------------------------------------------------ |
+| `value`    | Controlled state or initial default state from the underlying primitive. |
+| `max`      | number; progress maximum, default 100; value=null is indeterminate.      |
+| `children` | ReactNode content provided by the caller.                                |
+
+Exports：`Progress`、`ProgressTrack`、`ProgressIndicator`、`ProgressLabel`、`ProgressValue`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [amount, setAmount] = useState(30);
+  return (
+    <div
+      id="preview"
+      data-demo="progress"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="space-y-5">
+        <UI.Progress value={amount} aria-label={text("完成进度", "Completion")}>
+          <UI.ProgressLabel>{text("完成进度", "Completion")}</UI.ProgressLabel>
+          <UI.ProgressValue />
+        </UI.Progress>
+        <Button
+          variant="outline"
+          onClick={() => setAmount(amount >= 100 ? 0 : amount + 10)}
+        >
+          {text("增加 10%", "Add 10%")}
+        </Button>
+        <UI.Progress value={null} aria-label={text("准备中", "Preparing")} />
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

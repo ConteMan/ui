@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "trend",
+  "title": "Trend",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [
+    "recharts@3.8.0"
+  ],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/chart",
+    "@conteman/empty"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/trend.tsx",
+      "content": "import type { ReactNode } from \"react\";\nimport { AreaChart, Area, XAxis, YAxis } from \"recharts\";\nimport {\n  ChartContainer,\n  ChartTooltip,\n  ChartTooltipContent,\n} from \"@/components/ui/chart\";\nimport { Empty, EmptyDescription } from \"@/components/ui/empty\";\n\nexport function Trend({\n  data = [],\n  label,\n  empty,\n  color = \"var(--chart-2)\",\n  formatDay,\n}: {\n  data?: { day: string; count: number }[];\n  label: string;\n  empty: ReactNode;\n  color?: string;\n  formatDay?: (day: string) => string;\n}) {\n  if (!data.length)\n    return (\n      <Empty className=\"h-64\">\n        <EmptyDescription>{empty}</EmptyDescription>\n      </Empty>\n    );\n  return (\n    <div className=\"h-64 w-full\" role=\"img\" aria-label={label}>\n      <ChartContainer\n        className=\"h-full w-full\"\n        config={{ count: { label, color } }}\n      >\n        <AreaChart data={data} accessibilityLayer>\n          <XAxis\n            dataKey=\"day\"\n            tickLine={false}\n            axisLine={false}\n            tickFormatter={formatDay}\n            minTickGap={28}\n          />\n          <YAxis\n            tickLine={false}\n            axisLine={false}\n            allowDecimals={false}\n            width={32}\n          />\n          <ChartTooltip content={<ChartTooltipContent />} />\n          <Area\n            name={label}\n            isAnimationActive={false}\n            dataKey=\"count\"\n            stroke=\"var(--color-count)\"\n            fill=\"var(--color-count)\"\n            fillOpacity={0.15}\n          />\n        </AreaChart>\n      </ChartContainer>\n    </div>\n  );\n}\nexport default Trend;\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "data-display"
+  ],
+  "type": "registry:block"
+}

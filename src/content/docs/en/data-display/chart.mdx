@@ -1,0 +1,88 @@
+---
+title: Chart
+description: Composable Chart built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/ChartDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/chart
+```
+
+## Props
+
+| Property   | Behavior                                                 |
+| ---------- | -------------------------------------------------------- |
+| `config`   | ChartConfig; series labels, icons and theme colors.      |
+| `children` | ReactNode content provided by the caller.                |
+| `id`       | string; native element identity for labels and feedback. |
+
+Exports：`ChartConfig`、`ChartContainer`、`ChartTooltip`、`ChartTooltipContent`、`ChartLegend`、`ChartLegendContent`、`ChartStyle`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import * as UI from "@/components/ui/chart";
+import { AreaChart, Area, XAxis, YAxis } from "recharts";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="chart"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="space-y-4">
+        <UI.ChartContainer
+          config={{
+            count: { label: text("访问量", "Visits"), color: "var(--chart-1)" },
+          }}
+          className="h-64 w-full"
+        >
+          <AreaChart
+            data={[
+              { day: "Mon", count: 12 },
+              { day: "Tue", count: 28 },
+              { day: "Wed", count: 19 },
+              { day: "Thu", count: 42 },
+            ]}
+            accessibilityLayer
+          >
+            <XAxis dataKey="day" />
+            <YAxis />
+            <UI.ChartTooltip content={<UI.ChartTooltipContent />} />
+            <Area
+              dataKey="count"
+              stroke="var(--color-count)"
+              fill="var(--color-count)"
+            />
+          </AreaChart>
+        </UI.ChartContainer>
+        <p>
+          {text(
+            "示例访问量；方向键浏览数据点。",
+            "Illustrative visits; use arrow keys to inspect points.",
+          )}
+        </p>
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

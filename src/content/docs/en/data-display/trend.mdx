@@ -1,0 +1,81 @@
+---
+title: Trend
+description: Composable Trend built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/TrendDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/trend
+```
+
+## Props
+
+| Property    | Behavior                                                     |
+| ----------- | ------------------------------------------------------------ |
+| `data`      | Data array; no built-in fetching.                            |
+| `label`     | Caller-supplied text or accessible name; no built-in copy.   |
+| `empty`     | ReactNode supplied by caller for missing data.               |
+| `formatDay` | (day: string) => string; formats dates in axes and tooltips. |
+
+Exports：`Trend`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/trend";
+import { Button } from "@/components/ui/button";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [empty, setEmpty] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="trend"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="space-y-4">
+        <UI.Trend
+          label={text("访问趋势", "Visit trend")}
+          empty={text("没有数据", "No data")}
+          data={
+            empty
+              ? []
+              : [
+                  { day: "Mon", count: 12 },
+                  { day: "Tue", count: 28 },
+                  { day: "Wed", count: 19 },
+                  { day: "Thu", count: 42 },
+                ]
+          }
+        />
+        <Button
+          variant="outline"
+          aria-pressed={empty}
+          onClick={() => setEmpty(!empty)}
+        >
+          {text("切换空状态", "Toggle empty state")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

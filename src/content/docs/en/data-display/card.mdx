@@ -1,0 +1,74 @@
+---
+title: Card
+description: Composable Card built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/CardDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/card
+```
+
+## Props
+
+| Property   | Behavior                                                                   |
+| ---------- | -------------------------------------------------------------------------- |
+| `size`     | default / sm; controls card padding and spacing. |
+| `children` | ReactNode content provided by the caller.                                  |
+
+Exports：`Card`、`CardHeader`、`CardFooter`、`CardTitle`、`CardAction`、`CardDescription`、`CardContent`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [empty, setEmpty] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="card"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Card>
+        <UI.CardHeader>
+          <UI.CardTitle>{text("偏好设置", "Preferences")}</UI.CardTitle>
+          <UI.CardDescription>
+            {text("此处展示组合插槽", "Composed slots example")}
+          </UI.CardDescription>
+        </UI.CardHeader>
+        <UI.CardContent>
+          <p>
+            {text("内容由调用方提供。", "Content is supplied by the caller.")}
+          </p>
+        </UI.CardContent>
+        <UI.CardFooter>
+          <Button variant="outline" onClick={() => setEmpty(!empty)}>
+            {empty ? text("已保存", "Saved") : text("保存", "Save")}
+          </Button>
+        </UI.CardFooter>
+      </UI.Card>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

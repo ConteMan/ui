@@ -1,52 +1,115 @@
 ---
 title: DataTable
-description: A composable table with toolbar search, pagination and text supplied through props.
+description: Client and controlled server tables with filters, sorting and column settings.
 ---
 
 import DataTableDemo from "../../../../components/demos/DataTableDemo";
 
 ## Live example
 
-Search names, categories or statuses. Page through the results and try loading, empty and error states, including retry.
+Switch between client and controlled server modes. Try search, facets, sorting, selection, column settings and paging. A simulated server responds after 350ms and retains rows while refreshing.
 
 <DataTableDemo locale="en" client:visible />
 
 ## Install
 
-Configure the registry using the [introduction](/en/).
-
 ```sh
 npx shadcn add @conteman/data-table
 ```
 
-Installs Button, Input, Table, class utilities, the theme and TanStack Table 8 through registry dependencies.
+Installs dependent primitives, utilities, theme and TanStack Table 8.
 
-## Usage
+## Client usage
 
 ```tsx
 import { DataTable } from "@/components/data-table";
-import type { ColumnDef } from "@tanstack/react-table";
 
-type Item = { name: string };
-const columns: ColumnDef<Item>[] = [{ accessorKey: "name", header: "Name" }];
-const data: Item[] = [{ name: "Button" }, { name: "DataTable" }];
-
-export function List() {
-  return <DataTable data={data} columns={columns} pageSize={5} labels={{
-    table: "Components", search: "Search components", searchPlaceholder: "Search names…",
-    pagination: "Table pagination", previous: "Previous", next: "Next",
-    empty: "No results", loading: "Loading…",
-    range: (start, end, total) => `${start}–${end} of ${total}`,
-  }} />;
+export function Example() {
+  return (
+    <DataTable
+      data={[{ name: "Button" }, { name: "Input" }]}
+      columns={[{ accessorKey: "name", header: "Name" }]}
+      labels={{
+        table: "Components",
+        search: "Search components",
+        searchPlaceholder: "Name…",
+        clearSearch: "Clear search",
+        pagination: "Pages",
+        previous: "Previous",
+        next: "Next",
+        first: "First",
+        last: "Last",
+        pageSize: "Rows",
+        empty: "No results",
+        loading: "Loading…",
+        refreshing: "Refreshing…",
+        range: (start, end, total) => `${start}–${end} / ${total}`,
+      }}
+      pageSize={5}
+      searchShortcut
+    />
+  );
 }
 ```
 
-## States and boundaries
+## Controlled server usage
 
-- `loading` renders `labels.loading`, disables search and pagination, and sets `aria-busy`.
-- `error` accepts React content, including a retry button. Existing rows remain visible while pagination is disabled.
-- `labels.empty` covers both empty input data and search with no matches.
-- `toolbar` adds caller-supplied actions.
-- `pageSize` defaults to 5. Search resets pagination and shrinking data cannot leave a stale page index.
+Own these states and request the server with them, then return current-page rows and the filtered total. Cancel stale requests. Sorting and filters reset the requested page to zero.
 
-This sample filters and paginates in memory. Server pagination, sorting, selection and persisted column preferences are outside its scope. Wide tables scroll within their container.
+```tsx
+<DataTable
+  data={response.rows}
+  columns={columns}
+  labels={labels}
+  manualPagination
+  manualSorting
+  manualFiltering
+  rowCount={response.total}
+  pagination={pagination}
+  onPaginationChange={setPagination}
+  sorting={sorting}
+  onSortingChange={setSorting}
+  columnFilters={filters}
+  onColumnFiltersChange={setFilters}
+  globalFilter={search}
+  onGlobalFilterChange={setSearch}
+  loading={initialLoading}
+  refreshing={fetching && !initialLoading}
+/>
+```
+
+## Props
+
+| Prop                                                 | Type                                        | Behavior                                                                                            |
+| ---------------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `data / columns`                                     | `TData[] / ColumnDef<TData>[]`              | All data locally; one page in server mode.                                                          |
+| `labels`                                             | `DataTableLabels`                           | Required copy, accessible names and range formatter.                                                |
+| `pagination / onPaginationChange`                    | `PaginationState / OnChangeFn`              | Zero-based page index; pair controlled values with callbacks.                                       |
+| `sorting / onSortingChange`                          | `SortingState / OnChangeFn`                 | Header sorting with aria-sort.                                                                      |
+| `columnFilters / onColumnFiltersChange`              | `ColumnFiltersState / OnChangeFn`           | Column filters, composable with FacetedFilter.                                                      |
+| `globalFilter / onGlobalFilterChange`                | `string / OnChangeFn<string>`               | Global search.                                                                                      |
+| `manualPagination / manualSorting / manualFiltering` | `boolean`                                   | Delegate processing to the caller.                                                                  |
+| `rowCount`                                           | `number`                                    | Filtered server total; omit for count-based next-page navigation and supply labels.unknownRange.    |
+| `pageSize / pageSizeOptions`                         | `number / number[]`                         | Initial local size 5; options default to 10/20/50/100.                                              |
+| `rowSelection / onRowSelectionChange / getRowId`     | `RowSelectionState / OnChangeFn / function` | Selection state, callback and stable identity; provide stable IDs in server mode.                   |
+| `enableRowSelection`                                 | `boolean`                                   | Page and row selection; supply selectAll/selectRow names.                                           |
+| `columnVisibility / onColumnVisibilityChange`        | `VisibilityState / OnChangeFn`              | Visibility; mandatory columns cannot be hidden.                                                     |
+| `columnSizing / onColumnSizingChange`                | `ColumnSizingState / OnChangeFn`            | Widths; enableColumnResizing and labels.resizeColumn enable pointer resizing and keyboard sliders.  |
+| `density / onDensityChange`                          | `comfortable / compact`                     | Optionally controlled density.                                                                      |
+| `columnLabels`                                       | `Record<string, string>`                    | Readable settings and resize labels.                                                                |
+| `searchDebounceMs / searchShortcut / showSearch`     | `number / boolean / boolean`                | Defaults 250ms / false / true. Composition pauses search; / ignores editors and dialogs.            |
+| `toolbar`                                            | `ReactNode or (table) => ReactNode`         | Compose filters and caller actions.                                                                 |
+| `loading / refreshing / error`                       | `boolean / boolean / ReactNode`             | Initial loading replaces rows; refreshing retains rows and settled range; errors can include retry. |
+| `fillHeight / className`                             | `boolean / string`                          | Set explicit parent height and min-height:0 for sticky headers and internal scroll.                 |
+
+## Composition exports
+
+- `FacetedFilter`: `label, value, options, onChange, allLabel, searchLabel, emptyLabel, hint?, disabled?`; Single-value facets, option search and counts.
+- `FilterSearch`: `value, onValueChange, label, clearLabel?, debounceMs?, shortcut?`; Standalone debounced search.
+- `ViewOptions`: `table, labels, columnLabels?, density?, onDensityChange?, disabled?`; Visibility, density and resets.
+- `DataTablePagination`: `pagination, onPaginationChange, total, count, labels, disabled?, refreshing?, pageSizeOptions?`; Four-way paging; first/last/pageSize labels enable the corresponding controls.
+- `DataTableToolbar / FilterHeading / DataTableActionBar`: Toolbar, filter heading and bulk actions. ActionBar accepts label, summary, clearLabel, onClear and children.
+
+## States and integration boundaries
+
+Loading disables search and paging; refreshing or error disables sorting and paging. The consumer owns persistence, URL queries, requests/retry, business fields, time zones and cross-page bulk actions. P0 labels remain supported; optional labels enable new controls.

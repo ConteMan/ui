@@ -1,0 +1,79 @@
+---
+title: Item
+description: 可组合的 Item，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/ItemDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/item
+```
+
+## Props
+
+| 参数       | 行为                                                             |
+| ---------- | ---------------------------------------------------------------- |
+| `variant`  | default / outline / muted；ItemMedia 为 default / icon / image。 |
+| `size`     | default / sm / xs；内容密度。                                    |
+| `render`   | ReactElement 或 Base UI render 回调；组合自定义根元素。          |
+| `children` | ReactNode，调用方提供的组合内容。                                |
+
+导出：`Item`、`ItemMedia`、`ItemContent`、`ItemActions`、`ItemGroup`、`ItemSeparator`、`ItemTitle`、`ItemDescription`、`ItemHeader`、`ItemFooter`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/item";
+import { Button } from "@/components/ui/button";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [empty, setEmpty] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="item"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.ItemGroup>
+        <UI.Item variant="outline">
+          <UI.ItemContent>
+            <UI.ItemTitle>{text("示例项目", "Example project")}</UI.ItemTitle>
+            <UI.ItemDescription>
+              {text("组件组合示例", "Component composition example")}
+            </UI.ItemDescription>
+          </UI.ItemContent>
+          <UI.ItemActions>
+            <Button variant="outline" onClick={() => setEmpty(!empty)}>
+              {empty ? text("已添加", "Added") : text("添加", "Add")}
+            </Button>
+          </UI.ItemActions>
+        </UI.Item>
+        <UI.ItemSeparator />
+        <UI.Item>
+          <UI.ItemContent>
+            <UI.ItemTitle>{text("第二项", "Second item")}</UI.ItemTitle>
+          </UI.ItemContent>
+        </UI.Item>
+      </UI.ItemGroup>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。
