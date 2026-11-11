@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [
+    "lucide-react@1.52.0"
+  ],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/spinner.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { Loader2Icon } from \"lucide-react\";\n\nfunction Spinner({ className, ...props }: React.ComponentProps<\"svg\">) {\n  return (\n    <Loader2Icon\n      data-slot=\"spinner\"\n      role=\"status\"\n      className={cn(\"size-4 animate-spin\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Spinner };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "basics"
+  ],
+  "type": "registry:ui"
+}

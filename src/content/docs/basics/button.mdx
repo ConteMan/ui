@@ -27,13 +27,27 @@ npx shadcn add @conteman/button
 import { Button } from "@/components/ui/button";
 
 export function SaveButton() {
-  return <Button variant="outline" onClick={() => console.log("save")}>保存更改</Button>;
+  return (
+    <Button variant="outline" onClick={() => console.log("save")}>
+      保存更改
+    </Button>
+  );
 }
 ```
 
 `variant` 支持 `default`、`outline`、`secondary`、`ghost`、`destructive`、`link`。
 
 `size` 支持 `default`、`xs`、`sm`、`lg`、`icon`、`icon-xs`、`icon-sm`、`icon-lg`。紧凑尺寸用于密集桌面布局；触屏操作区域应至少为 44px。
+
+## Props
+
+| 参数                    | 类型与行为                                                  |
+| ----------------------- | ----------------------------------------------------------- |
+| `variant`               | default / outline / secondary / ghost / destructive / link  |
+| `size`                  | default / xs / sm / lg / icon / icon-xs / icon-sm / icon-lg |
+| `children / aria-label` | 内容与图标按钮的可访问名称。                                |
+| `disabled / aria-busy`  | 禁用与加载语义，加载内容由调用方提供。                      |
+| `render / nativeButton` | Base UI 元素组合；链接使用 nativeButton=false。             |
 
 ## 状态与可访问性
 

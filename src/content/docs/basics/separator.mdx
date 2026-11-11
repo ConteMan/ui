@@ -1,0 +1,63 @@
+---
+title: Separator
+description: 为相关内容提供水平或垂直分隔。
+---
+
+import Demo from "../../../components/demos/SeparatorDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/separator
+```
+
+## Props
+
+| 参数          | 行为                                                                   |
+| ------------- | ---------------------------------------------------------------------- |
+| `orientation` | horizontal / vertical；Field 另支持 responsive；按组件决定布局或方向。 |
+| `decorative`  | boolean；装饰分隔线从辅助技术中隐藏，默认 true。                       |
+
+导出：`Separator`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import * as UI from "@/components/ui/separator";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="separator"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="space-y-4">
+        <p>{text("账户", "Account")}</p>
+        <UI.Separator />
+        <p>{text("偏好设置", "Preferences")}</p>
+        <div className="flex h-8 items-center gap-3">
+          <span>A</span>
+          <UI.Separator orientation="vertical" />
+          <span>B</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

@@ -27,13 +27,27 @@ Installs Base UI, class-variance-authority, class utilities and the theme automa
 import { Button } from "@/components/ui/button";
 
 export function SaveButton() {
-  return <Button variant="outline" onClick={() => console.log("save")}>Save changes</Button>;
+  return (
+    <Button variant="outline" onClick={() => console.log("save")}>
+      Save changes
+    </Button>
+  );
 }
 ```
 
 `variant`: `default`, `outline`, `secondary`, `ghost`, `destructive`, `link`.
 
 `size`: `default`, `xs`, `sm`, `lg`, `icon`, `icon-xs`, `icon-sm`, `icon-lg`. Compact sizes serve dense desktop layouts; use touch targets of at least 44px for touch interactions.
+
+## Props
+
+| Prop                    | Type and behavior                                           |
+| ----------------------- | ----------------------------------------------------------- |
+| `variant`               | default / outline / secondary / ghost / destructive / link  |
+| `size`                  | default / xs / sm / lg / icon / icon-xs / icon-sm / icon-lg |
+| `children / aria-label` | Content and icon-button accessible names.                   |
+| `disabled / aria-busy`  | Disabled and pending semantics; provide pending content.    |
+| `render / nativeButton` | Base UI composition; links use nativeButton=false.          |
 
 ## States and accessibility
 

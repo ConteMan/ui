@@ -1,0 +1,61 @@
+---
+title: Kbd
+description: Show keys and keyboard shortcuts.
+---
+
+import Demo from "../../../../components/demos/KbdDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/kbd
+```
+
+## Props
+
+| Property    | Behavior                                       |
+| ----------- | ---------------------------------------------- |
+| `children`  | ReactNode content provided by the caller.      |
+| `className` | string; Tailwind classes merged onto the root. |
+
+Exports：`Kbd`、`KbdGroup`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import * as UI from "@/components/ui/kbd";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  return (
+    <div
+      id="preview"
+      data-demo="kbd"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="flex items-center gap-3">
+        <span>{text("查找", "Find")}</span>
+        <UI.KbdGroup>
+          <UI.Kbd>⌘</UI.Kbd>
+          <UI.Kbd>K</UI.Kbd>
+        </UI.KbdGroup>
+        <UI.Kbd>/</UI.Kbd>
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
