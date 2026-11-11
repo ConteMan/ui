@@ -1,0 +1,82 @@
+---
+title: SettingsPage
+description: 保存草稿、加载反馈与粘性保存栏。
+---
+
+import Demo from "../../../components/demos/SettingsPageDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/settings-page
+```
+
+## Props
+
+| 参数                      | 行为                                              |
+| ------------------------- | ------------------------------------------------- |
+| `title / description`     | ReactNode；页头标题与可选说明。                   |
+| `saveLabel / savingLabel` | 调用方提供的文案或可访问名称，不内置默认文字。    |
+| `saving / disabled`       | boolean；保存中或禁用时锁定 fieldset 与提交按钮。 |
+| `onSave`                  | 变更或提交回调，副作用由应用处理。                |
+| `status`                  | ReactNode；保存结果的 aria-live 状态内容。        |
+
+导出：`SettingsPage`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useId, useState } from "react";
+import * as UI from "@/components/settings-page";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="settings-page"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.SettingsPage
+        title={text("设置", "Settings")}
+        description={text("编辑草稿后保存。", "Edit a draft, then save.")}
+        saveLabel={text("保存", "Save")}
+        savingLabel={text("保存中…", "Saving…")}
+        saving={saving}
+        status={saved ? text("已保存示例", "Example saved") : undefined}
+        onSave={(event) => {
+          event.preventDefault();
+          setSaving(true);
+          setTimeout(() => {
+            setSaving(false);
+            setSaved(true);
+          }, 500);
+        }}
+      >
+        <div className="grid gap-2">
+          <Label htmlFor={id}>{text("显示名称", "Display name")}</Label>
+          <Input id={id} defaultValue="Example" />
+        </div>
+      </UI.SettingsPage>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

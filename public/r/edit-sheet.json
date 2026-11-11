@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "edit-sheet",
+  "title": "EditSheet",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/sheet",
+    "@conteman/button"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/edit-sheet.tsx",
+      "content": "import type { ReactNode, ComponentProps } from \"react\";\nimport {\n  Sheet,\n  SheetContent,\n  SheetHeader,\n  SheetTitle,\n  SheetDescription,\n  SheetFooter,\n  SheetClose,\n} from \"@/components/ui/sheet\";\nimport { Button } from \"@/components/ui/button\";\n\nexport function EditSheet({\n  open,\n  onOpenChange,\n  title,\n  description,\n  children,\n  saveLabel,\n  savingLabel,\n  cancelLabel,\n  closeLabel,\n  saving = false,\n  error,\n  onSave,\n}: {\n  open: boolean;\n  onOpenChange: (open: boolean) => void;\n  title: ReactNode;\n  description: ReactNode;\n  children: ReactNode;\n  saveLabel: string;\n  savingLabel: string;\n  cancelLabel: string;\n  closeLabel: string;\n  saving?: boolean;\n  error?: ReactNode;\n  onSave: ComponentProps<\"form\">[\"onSubmit\"];\n}) {\n  return (\n    <Sheet\n      open={open}\n      onOpenChange={(next) => {\n        if (!saving) onOpenChange(next);\n      }}\n    >\n      <SheetContent closeLabel={closeLabel}>\n        <SheetHeader>\n          <SheetTitle>{title}</SheetTitle>\n          <SheetDescription>{description}</SheetDescription>\n        </SheetHeader>\n        <form\n          onSubmit={onSave}\n          aria-busy={saving}\n          className=\"flex min-h-0 flex-1 flex-col\"\n        >\n          <fieldset\n            disabled={saving}\n            className=\"min-h-0 flex-1 space-y-4 overflow-auto px-4 py-2\"\n          >\n            {children}\n          </fieldset>\n          {error && (\n            <div role=\"alert\" className=\"px-4 text-destructive\">\n              {error}\n            </div>\n          )}\n          <SheetFooter>\n            <SheetClose\n              render={\n                <Button type=\"button\" variant=\"outline\" disabled={saving} />\n              }\n            >\n              {cancelLabel}\n            </SheetClose>\n            <Button type=\"submit\" disabled={saving}>\n              {saving ? savingLabel : saveLabel}\n            </Button>\n          </SheetFooter>\n        </form>\n      </SheetContent>\n    </Sheet>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "patterns"
+  ],
+  "type": "registry:block"
+}

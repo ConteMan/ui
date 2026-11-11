@@ -1,0 +1,101 @@
+---
+title: ListPage
+description: A fill-height list page combining heading, filters, and table.
+---
+
+import Demo from "../../../../components/demos/ListPageDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/list-page
+```
+
+## Props
+
+| Property              | Behavior                                              |
+| --------------------- | ----------------------------------------------------- |
+| `title / description` | ReactNode; page heading and optional description.     |
+| `actions / filters`   | ReactNode; header actions and a separate filter area. |
+| `children`            | ReactNode content provided by the caller.             |
+| `className`           | string; Tailwind classes merged onto the root.        |
+
+Exports：`ListPage`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/list-page";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/data-table";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [empty, setEmpty] = useState(false);
+  const tableLabels = {
+    table: "Components",
+    search: "Search components",
+    searchPlaceholder: "Name…",
+    clearSearch: "Clear search",
+    pagination: "Pages",
+    previous: "Previous",
+    next: "Next",
+    first: "First",
+    last: "Last",
+    pageSize: "Rows",
+    empty: "No results",
+    loading: "Loading…",
+    refreshing: "Refreshing…",
+    range: (start, end, total) => `${start}–${end} / ${total}`,
+  };
+  return (
+    <div
+      id="preview"
+      data-demo="list-page"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="h-[32rem]">
+        <UI.ListPage
+          title={text("项目列表", "Projects")}
+          description={text(
+            "示例数据，支持本地分页。",
+            "Illustrative data with local pagination.",
+          )}
+          actions={
+            <Button onClick={() => setEmpty(!empty)}>
+              {text("切换空状态", "Toggle empty state")}
+            </Button>
+          }
+        >
+          <DataTable
+            fillHeight
+            data={
+              empty
+                ? []
+                : [{ name: "Alpha" }, { name: "Beta" }, { name: "Gamma" }]
+            }
+            columns={[{ accessorKey: "name", header: text("名称", "Name") }]}
+            labels={tableLabels}
+            pageSize={2}
+          />
+        </UI.ListPage>
+      </div>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

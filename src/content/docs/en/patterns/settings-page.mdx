@@ -1,0 +1,82 @@
+---
+title: SettingsPage
+description: Draft saving, pending feedback, and a sticky save bar.
+---
+
+import Demo from "../../../../components/demos/SettingsPageDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/settings-page
+```
+
+## Props
+
+| Property                  | Behavior                                                    |
+| ------------------------- | ----------------------------------------------------------- |
+| `title / description`     | ReactNode; page heading and optional description.           |
+| `saveLabel / savingLabel` | Caller-supplied text or accessible name; no built-in copy.  |
+| `saving / disabled`       | boolean; lock fieldset and submit while saving or disabled. |
+| `onSave`                  | Change or submit callback; application owns side effects.   |
+| `status`                  | ReactNode; aria-live content for save results.              |
+
+Exports：`SettingsPage`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useId, useState } from "react";
+import * as UI from "@/components/settings-page";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+  const id = useId();
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="settings-page"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.SettingsPage
+        title={text("设置", "Settings")}
+        description={text("编辑草稿后保存。", "Edit a draft, then save.")}
+        saveLabel={text("保存", "Save")}
+        savingLabel={text("保存中…", "Saving…")}
+        saving={saving}
+        status={saved ? text("已保存示例", "Example saved") : undefined}
+        onSave={(event) => {
+          event.preventDefault();
+          setSaving(true);
+          setTimeout(() => {
+            setSaving(false);
+            setSaved(true);
+          }, 500);
+        }}
+      >
+        <div className="grid gap-2">
+          <Label htmlFor={id}>{text("显示名称", "Display name")}</Label>
+          <Input id={id} defaultValue="Example" />
+        </div>
+      </UI.SettingsPage>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.

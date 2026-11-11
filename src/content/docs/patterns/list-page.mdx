@@ -1,0 +1,101 @@
+---
+title: ListPage
+description: 可填满高度的列表页，组合标题、筛选和表格。
+---
+
+import Demo from "../../../components/demos/ListPageDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/list-page
+```
+
+## Props
+
+| 参数                  | 行为                                     |
+| --------------------- | ---------------------------------------- |
+| `title / description` | ReactNode；页头标题与可选说明。          |
+| `actions / filters`   | ReactNode；页头操作区与独立筛选区。      |
+| `children`            | ReactNode，调用方提供的组合内容。        |
+| `className`           | string；合并到组件根元素的 Tailwind 类。 |
+
+导出：`ListPage`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/list-page";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/data-table";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [empty, setEmpty] = useState(false);
+  const tableLabels = {
+    table: "Components",
+    search: "Search components",
+    searchPlaceholder: "Name…",
+    clearSearch: "Clear search",
+    pagination: "Pages",
+    previous: "Previous",
+    next: "Next",
+    first: "First",
+    last: "Last",
+    pageSize: "Rows",
+    empty: "No results",
+    loading: "Loading…",
+    refreshing: "Refreshing…",
+    range: (start, end, total) => `${start}–${end} / ${total}`,
+  };
+  return (
+    <div
+      id="preview"
+      data-demo="list-page"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="h-[32rem]">
+        <UI.ListPage
+          title={text("项目列表", "Projects")}
+          description={text(
+            "示例数据，支持本地分页。",
+            "Illustrative data with local pagination.",
+          )}
+          actions={
+            <Button onClick={() => setEmpty(!empty)}>
+              {text("切换空状态", "Toggle empty state")}
+            </Button>
+          }
+        >
+          <DataTable
+            fillHeight
+            data={
+              empty
+                ? []
+                : [{ name: "Alpha" }, { name: "Beta" }, { name: "Gamma" }]
+            }
+            columns={[{ accessorKey: "name", header: text("名称", "Name") }]}
+            labels={tableLabels}
+            pageSize={2}
+          />
+        </UI.ListPage>
+      </div>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

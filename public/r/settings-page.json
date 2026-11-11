@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "settings-page",
+  "title": "SettingsPage",
+  "description": "Composable React component. All user-facing text is supplied by the consumer.",
+  "dependencies": [],
+  "registryDependencies": [
+    "@conteman/utils",
+    "@conteman/theme",
+    "@conteman/settings-layout",
+    "@conteman/button"
+  ],
+  "files": [
+    {
+      "path": "registry/blocks/settings-page.tsx",
+      "content": "import type { ReactNode, ComponentProps } from \"react\";\nimport { SettingsLayout } from \"@/components/settings-layout\";\nimport { Button } from \"@/components/ui/button\";\n\nexport function SettingsPage({\n  title,\n  description,\n  children,\n  saveLabel,\n  savingLabel,\n  saving = false,\n  disabled = false,\n  status,\n  onSave,\n}: {\n  title: ReactNode;\n  description?: ReactNode;\n  children: ReactNode;\n  saveLabel: string;\n  savingLabel: string;\n  saving?: boolean;\n  disabled?: boolean;\n  status?: ReactNode;\n  onSave: ComponentProps<\"form\">[\"onSubmit\"];\n}) {\n  return (\n    <SettingsLayout>\n      <header>\n        <h2 className=\"text-xl font-semibold\">{title}</h2>\n        {description && (\n          <div className=\"mt-1 text-muted-foreground\">{description}</div>\n        )}\n      </header>\n      <form onSubmit={onSave} aria-busy={saving} className=\"space-y-5\">\n        <fieldset disabled={saving || disabled} className=\"min-w-0 space-y-5\">\n          {children}\n        </fieldset>\n        <footer className=\"sticky bottom-0 flex flex-wrap items-center justify-between gap-3 border-t bg-background py-3\">\n          <div role=\"status\" aria-live=\"polite\">\n            {status}\n          </div>\n          <Button\n            type=\"submit\"\n            disabled={saving || disabled}\n            className=\"min-h-11\"\n          >\n            {saving ? savingLabel : saveLabel}\n          </Button>\n        </footer>\n      </form>\n    </SettingsLayout>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "patterns"
+  ],
+  "type": "registry:block"
+}
