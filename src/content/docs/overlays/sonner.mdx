@@ -1,0 +1,95 @@
+---
+title: Sonner
+description: 可组合的 Sonner，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/SonnerDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/sonner
+```
+
+## Props
+
+| 参数                   | 行为                                                    |
+| ---------------------- | ------------------------------------------------------- |
+| `theme`                | light、dark 或 system；由调用方控制。                   |
+| `containerAriaLabel`   | 调用方提供的文案或可访问名称，不内置默认文字。          |
+| `closeButtonAriaLabel` | 调用方提供的文案或可访问名称，不内置默认文字。          |
+| `toastOptions`         | Sonner toastOptions；设置持续时间、样式、单条通知选项。 |
+
+导出：`Toaster`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useState, useEffect } from "react";
+import * as UI from "@/components/ui/sonner";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  useEffect(() => {
+    const update = () =>
+      setTheme(
+        document.documentElement.dataset.mode === "dark" ? "dark" : "light",
+      );
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-mode"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div
+      id="preview"
+      data-demo="sonner"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <div className="flex flex-wrap gap-3">
+        <UI.Toaster
+          theme={theme}
+          containerAriaLabel={text("通知", "Notifications")}
+          closeButton
+          closeButtonAriaLabel={text("关闭通知", "Dismiss notification")}
+        />
+        <Button
+          onClick={() => toast.success(text("已保存示例", "Example saved"))}
+        >
+          {text("成功通知", "Success notification")}
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() =>
+            toast.error(text("保存失败，请重试", "Save failed; try again"))
+          }
+        >
+          {text("错误通知", "Error notification")}
+        </Button>
+      </div>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。
+
+传入 theme、containerAriaLabel 和 closeButtonAriaLabel；不依赖 next-themes。

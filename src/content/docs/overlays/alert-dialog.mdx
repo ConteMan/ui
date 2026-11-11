@@ -1,0 +1,83 @@
+---
+title: AlertDialog
+description: 可组合的 AlertDialog，沿用共享主题；文字与可访问名称由应用传入。
+---
+
+import Demo from "../../../components/demos/AlertDialogDemo";
+
+## 实时示例
+
+内容为示例数据。可用键盘聚焦、操作控件，查看示例中的默认、选中或禁用状态。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置组件仓库。
+
+```sh
+npx shadcn add @conteman/alert-dialog
+```
+
+## Props
+
+| 参数                 | 行为                                    |
+| -------------------- | --------------------------------------- |
+| `open / defaultOpen` | boolean；受控打开状态或非受控初始状态。 |
+| `onOpenChange`       | 变更或提交回调，副作用由应用处理。      |
+| `children`           | ReactNode，调用方提供的组合内容。       |
+
+导出：`AlertDialog`、`AlertDialogAction`、`AlertDialogCancel`、`AlertDialogContent`、`AlertDialogDescription`、`AlertDialogFooter`、`AlertDialogHeader`、`AlertDialogMedia`、`AlertDialogOverlay`、`AlertDialogPortal`、`AlertDialogTitle`、`AlertDialogTrigger`。基础组件同时接受对应 Base UI 或原生元素参数；受控值需配套变更回调，默认值仅用于初始化内部状态。
+
+## 使用
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [, setEmpty] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="dialog"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Dialog>
+        <UI.DialogTrigger render={<Button className="min-h-11" />}>
+          {text("打开弹层", "Open dialog")}
+        </UI.DialogTrigger>
+        <UI.DialogContent closeLabel={text("关闭", "Close")}>
+          <UI.DialogHeader>
+            <UI.DialogTitle>
+              {text("确认更改", "Confirm changes")}
+            </UI.DialogTitle>
+            <UI.DialogDescription>
+              {text(
+                "此操作仅更新预览状态。",
+                "This action only updates the preview.",
+              )}
+            </UI.DialogDescription>
+          </UI.DialogHeader>
+          <UI.DialogFooter>
+            <UI.DialogClose render={<Button variant="outline" />}>
+              {text("取消", "Cancel")}
+            </UI.DialogClose>
+            <UI.DialogClose render={<Button onClick={() => setEmpty(true)} />}>
+              {text("确认", "Confirm")}
+            </UI.DialogClose>
+          </UI.DialogFooter>
+        </UI.DialogContent>
+      </UI.Dialog>
+    </div>
+  );
+}
+```
+
+## 状态与可访问性
+
+通过 props 或 children 提供文字、可访问名称及反馈。表单控件支持 disabled 与 aria-invalid；静态展示组件通过内容表达状态。浮层沿用 Base UI 的焦点管理、Escape 关闭与焦点恢复。消费项目通过根元素的 `.dark` 切换主题。

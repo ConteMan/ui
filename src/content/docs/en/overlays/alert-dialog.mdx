@@ -1,0 +1,83 @@
+---
+title: AlertDialog
+description: Composable AlertDialog built on the shared theme. Text and accessible names are supplied by your application.
+---
+
+import Demo from "../../../../components/demos/AlertDialogDemo";
+
+## Live example
+
+Illustrative content. Try keyboard focus, enabled controls and the states shown in this preview.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/alert-dialog
+```
+
+## Props
+
+| Property             | Behavior                                                      |
+| -------------------- | ------------------------------------------------------------- |
+| `open / defaultOpen` | boolean; controlled open state or uncontrolled initial state. |
+| `onOpenChange`       | Change or submit callback; application owns side effects.     |
+| `children`           | ReactNode content provided by the caller.                     |
+
+Exports：`AlertDialog`、`AlertDialogAction`、`AlertDialogCancel`、`AlertDialogContent`、`AlertDialogDescription`、`AlertDialogFooter`、`AlertDialogHeader`、`AlertDialogMedia`、`AlertDialogOverlay`、`AlertDialogPortal`、`AlertDialogTitle`、`AlertDialogTrigger`。Primitives also accept the corresponding Base UI or native element props. Controlled values require their change callback; default values initialize local state.
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import * as UI from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
+  const english = locale === "en";
+  const text = (zh: string, en: string) => (english ? en : zh);
+
+  const [, setEmpty] = useState(false);
+  return (
+    <div
+      id="preview"
+      data-demo="dialog"
+      className="conteman-preview min-w-0 space-y-4 border border-border p-4 sm:p-6"
+    >
+      <UI.Dialog>
+        <UI.DialogTrigger render={<Button className="min-h-11" />}>
+          {text("打开弹层", "Open dialog")}
+        </UI.DialogTrigger>
+        <UI.DialogContent closeLabel={text("关闭", "Close")}>
+          <UI.DialogHeader>
+            <UI.DialogTitle>
+              {text("确认更改", "Confirm changes")}
+            </UI.DialogTitle>
+            <UI.DialogDescription>
+              {text(
+                "此操作仅更新预览状态。",
+                "This action only updates the preview.",
+              )}
+            </UI.DialogDescription>
+          </UI.DialogHeader>
+          <UI.DialogFooter>
+            <UI.DialogClose render={<Button variant="outline" />}>
+              {text("取消", "Cancel")}
+            </UI.DialogClose>
+            <UI.DialogClose render={<Button onClick={() => setEmpty(true)} />}>
+              {text("确认", "Confirm")}
+            </UI.DialogClose>
+          </UI.DialogFooter>
+        </UI.DialogContent>
+      </UI.Dialog>
+    </div>
+  );
+}
+```
+
+## States and accessibility
+
+Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
