@@ -1207,6 +1207,31 @@
       "dependencies": []
     },
     {
+      "name": "admin-shell",
+      "type": "registry:block",
+      "title": "AdminShell",
+      "description": "Grouped navigation, a page-owned sticky region and mobile Sheet navigation with caller-supplied labels.",
+      "categories": [
+        "patterns"
+      ],
+      "registryDependencies": [
+        "@conteman/utils",
+        "@conteman/theme",
+        "@conteman/button",
+        "@conteman/sidebar",
+        "@conteman/sheet"
+      ],
+      "files": [
+        {
+          "path": "registry/blocks/admin-shell.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "dependencies": [
+        "lucide-react@1.52.0"
+      ]
+    },
+    {
       "name": "use-mobile",
       "type": "registry:hook",
       "title": "Mobile breakpoint",

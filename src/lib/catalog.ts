@@ -48,5 +48,5 @@ export const componentGroups = {
     "accordion",
     "settings-layout",
   ],
-  patterns: ["list-page", "settings-page", "edit-sheet"],
+  patterns: ["list-page", "settings-page", "edit-sheet", "admin-shell"],
 } as const;

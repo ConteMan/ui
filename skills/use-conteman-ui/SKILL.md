@@ -34,6 +34,6 @@ DataTable resolves Button, Input, Table, class utilities and theme automatically
 - Supply all visible text, accessible names, placeholders, empty and loading states through props. DataTable requires a `labels` object and column definitions; see https://ui.conteman.com/en/data-display/data-table/index.md.
 - DataTable supports local processing and controlled server pagination, sorting and filtering through TanStack Table 8 state/callback pairs and manual flags. Supply the filtered rowCount. The consumer owns requests, URL state, persistence and cross-page bulk actions. Read the DataTable docs for facets, debounced IME search, column settings, selection, internal scrolling and refreshing.
 - Toggle `.dark` on the consuming application's root for dark mode. Nimbus's `data-mode` belongs only to the documentation site.
-- Install basics, forms, data display, overlays, navigation, list-page, settings-page and edit-sheet independently. Dialog is a separate registry item. The admin-shell page is a placeholder pending upstream #396.
+- Install basics, forms, data display, overlays, navigation, list-page, settings-page, edit-sheet and admin-shell independently. Dialog is a separate registry item. AdminShell provides grouped navigation and mobile Sheet navigation; declare one AdminPageSticky within its content for status/actions beneath the heading. All navigation labels come from props.
 
 Read the installed source before modifying it; the consuming project owns its copy.

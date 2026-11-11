@@ -51,8 +51,8 @@ export default function SidebarDemo({
           </UI.SidebarContent>
           <UI.SidebarFooter>
             {text(
-              "基础分组示例，后台外壳另行迁移。",
-              "Primitive groups; the admin shell is deferred.",
+              "基础分组示例，可组合为后台外壳。",
+              "Primitive groups for composing an admin shell.",
             )}
           </UI.SidebarFooter>
         </UI.Sidebar>

@@ -1,8 +1,92 @@
 ---
-title: Admin shell (deferred)
-description: The grouped shell and sticky heading will be migrated after the upstream change is merged.
+title: AdminShell
+description: Grouped navigation, a page-owned sticky status and action region, and mobile Sheet navigation.
 ---
 
-This page is a placeholder. The grouped admin shell and sticky page header are deferred until upstream #396 is merged. There is no installable admin-shell registry item in this phase.
+import Demo from "../../../../components/demos/AdminShellDemo";
 
-Use the [Sidebar primitive](/en/navigation/sidebar/), [List page](/en/patterns/list-page/), [Settings page](/en/patterns/settings-page/) and [Edit sheet](/en/patterns/edit-sheet/) independently.
+## Live example
+
+Illustrative content. Collapse the desktop sidebar: group titles disappear while separators and the bottom region remain. On mobile, open the Sheet from the heading and select a page to close it. Toggle the status length, scroll the form or press Tab to inspect sticky behavior and focus clearance.
+
+<Demo client:visible locale="en" />
+
+## Install
+
+Configure the namespace in [Introduction](/en/) first.
+
+```sh
+npx shadcn add @conteman/admin-shell
+```
+
+The Registry installs Sidebar, Sheet, Button, the theme and their transitive dependencies. Icons use `lucide-react`; the consumer supplies React and React DOM. The live example imports the distributed source directly.
+
+## Props
+
+| Property | Behavior |
+| --- | --- |
+| `groups` | Ordered `AdminNavigationGroup[]`. Each group has a unique `id`, optional `title` and navigation `items`. Separators appear between groups. |
+| `bottomGroups` | Same shape, placed at the bottom of navigation with a leading separator. Long navigation remains scrollable. |
+| `labels` | Required `navigation`, `mobileTitle`, `openNavigation`, `closeNavigation`, `expandSidebar`, `collapseSidebar`; optional `mobileDescription`. All copy and accessible names come from the caller. |
+| `brand / footer` | ReactNode or `(compact: boolean) => ReactNode`, allowing compact branding and account content. |
+| `header` | Page heading content. The caller chooses heading level and breadcrumbs; the shell supplies navigation controls. |
+| `open / onOpenChange` | Controlled desktop expansion. Otherwise internal state uses `defaultOpen`, true by default. Mobile Sheet state is independent. |
+| `children` | Page content; declare one `AdminPageSticky` within this content tree. |
+| `className / style` | Defaults to `h-svh` with internal page scrolling. Supply a height through `className` when embedded. `--sidebar-width` defaults to 16rem and `--sidebar-width-icon` to 4rem; override either through `style`. |
+
+Navigation items require `id`, `label`, `icon`; optional properties are `href`, `render`, `active`, `disabled`, `onSelect`. `href` renders a link, `render` supports a router Link and takes precedence over `href`; otherwise a button is rendered. Active items receive `aria-current="page"`. Disabled items neither select nor dismiss navigation. Compact items retain an accessible label and tooltip; icons are hidden from assistive technology.
+
+Exports: `AdminShell`, `AdminPageLayout`, `AdminPageSticky`, and the `AdminShellProps`, `AdminShellLabels`, `AdminNavigationGroup`, `AdminNavigationItem` types.
+
+## Usage
+
+```tsx
+import { HomeIcon } from "lucide-react";
+import { AdminShell, AdminPageSticky } from "@/components/admin-shell";
+import { Button } from "@/components/ui/button";
+
+export function Workspace() {
+  return (
+    <AdminShell
+      labels={{
+        navigation: "Main navigation",
+        mobileTitle: "Workspace navigation",
+        mobileDescription: "Choose a page to open.",
+        openNavigation: "Open navigation",
+        closeNavigation: "Close navigation",
+        expandSidebar: "Expand sidebar",
+        collapseSidebar: "Collapse sidebar",
+      }}
+      groups={[{
+        id: "workspace",
+        title: "Workspace",
+        items: [{ id: "overview", label: "Overview", icon: <HomeIcon />, href: "/", active: true }],
+      }]}
+      brand={(compact) => compact ? <HomeIcon aria-hidden="true" /> : "Example workspace"}
+      header={<h1>Workspace overview</h1>}
+    >
+      <AdminPageSticky>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p role="status">All changes saved</p>
+          <Button onClick={() => window.print()}>Print</Button>
+        </div>
+      </AdminPageSticky>
+      <div className="p-6">Page content</div>
+    </AdminShell>
+  );
+}
+```
+
+The `registry:component` file installs at `components/admin-shell.tsx`. Adjust imports if you customize the `components` alias.
+
+## Sticky and scrolling contract
+
+`AdminPageLayout` accepts `header`, `children` and native div props, and works independently inside your own shell. Place it in a flex container with bounded height. `AdminShell` already includes this layout. Declare one `AdminPageSticky` within each page's layout descendants. Its content is portaled below the heading, and both rows remain sticky together.
+
+A ResizeObserver measures the entire heading and status/action region, including wrapped content. It sets `--admin-sticky-height` on the layout itself, used by that scroll container's `scroll-padding-top`. Inputs, buttons, links and elements with tabindex receive a 12px `scroll-margin-top`. Multiple layouts keep independent measurements. Avoid additional content scroll containers and fixed top offsets on status rows.
+
+Mobile navigation reuses the same order and bottom content with visible group titles. The Sheet supports Escape, a focus trap and focus restoration to its trigger; it appears above the sticky region. Desktop supports expanded and icon states and Sidebar's Ctrl/⌘+B shortcut. Expansion changes inherit Sidebar's `sidebar_state` cookie write; the component does not read or restore application preferences.
+
+## States and application responsibilities
+
+The example includes current and unavailable items, short/long status content, saving with disabled fields and saved feedback. Compose loading, errors, retry actions, account menus and empty navigation through props and children. The shell does not fetch data, connect authentication, routing or i18n, or infer permissions. Always provide navigation labels and icons.

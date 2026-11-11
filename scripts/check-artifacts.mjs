@@ -106,12 +106,7 @@ for (const route of routes) {
   }
 }
 assert.equal(registry.name, "conteman");
-assert.ok(!names.has("admin-shell"));
-for (const prefix of ["", "en/"]) {
-  assert.ok(
-    (await text(`${prefix}patterns/admin-shell/index.html`)).includes("396"),
-  );
-}
+assert.ok(names.has("admin-shell"));
 const llms = await text("llms.txt");
 assert.ok(llms.includes("ui.conteman.com") && llms.includes("basics/llms.txt"));
 assert.ok((await text("basics/llms.txt")).includes("button/index.md"));

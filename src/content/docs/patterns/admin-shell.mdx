@@ -1,8 +1,92 @@
 ---
-title: 后台外壳（待迁移）
-description: 侧栏分组与吸顶页头将在上游改动合并后迁移。
+title: 后台外壳 AdminShell
+description: 分组侧栏、页面声明的吸顶状态与操作区，以及手机 Sheet 导航。
 ---
 
-此页为占位说明。后台外壳（侧栏分组与吸顶页头）等待上游 #396 合并后再迁移；本期没有可安装的 admin-shell Registry 项。
+import Demo from "../../../components/demos/AdminShellDemo";
 
-当前可分别使用 [Sidebar 基础组件](/navigation/sidebar/)、[列表页](/patterns/list-page/)、[设置页](/patterns/settings-page/)和[编辑 Sheet](/patterns/edit-sheet/)。
+## 实时示例
+
+内容为示例数据。桌面折叠侧栏后，分组标题隐藏，分隔线和底部区域保留；手机通过页头按钮打开 Sheet，选择页面即关闭。切换状态长度、滚动表单或按 Tab，检查整个吸顶区与字段焦点。
+
+<Demo client:visible />
+
+## 安装
+
+先按[开始使用](/)配置命名空间。
+
+```sh
+npx shadcn add @conteman/admin-shell
+```
+
+Registry 自动安装 Sidebar、Sheet、Button、主题及其传递依赖。图标依赖 `lucide-react`；React 和 React DOM 由消费项目提供。示例直接引用分发源码。
+
+## Props
+
+| 属性 | 行为 |
+| --- | --- |
+| `groups` | `AdminNavigationGroup[]`，按顺序显示；`id` 唯一，`title` 可省略，`items` 提供导航项。组间自动分隔。 |
+| `bottomGroups` | 同上，放在导航底部并保留上方分隔线；导航超长时区域可滚动。 |
+| `labels` | 必填 `navigation`、`mobileTitle`、`openNavigation`、`closeNavigation`、`expandSidebar`、`collapseSidebar`，可选 `mobileDescription`。所有文字和可访问名称来自调用者。 |
+| `brand / footer` | ReactNode 或 `(compact: boolean) => ReactNode`；为图标模式提供合适的品牌和账户区域。 |
+| `header` | 页面标题行内容；调用者决定标题层级与面包屑。外壳添加导航按钮。 |
+| `open / onOpenChange` | 桌面展开状态受控；不传时由内部状态管理，`defaultOpen` 默认 true。手机 Sheet 状态独立。 |
+| `children` | 页面内容，可在内容树内声明一次 `AdminPageSticky`。 |
+| `className / style` | 默认 `h-svh` 占据视口并在页面内容区滚动；嵌入时通过 `className` 给定高度。`--sidebar-width` 默认 16rem，`--sidebar-width-icon` 默认 4rem，均通过 `style` 覆盖。 |
+
+每个导航项提供 `id`、`label`、`icon`，可选 `href`、`render`、`active`、`disabled`、`onSelect`。`href` 渲染链接，`render` 适配路由 Link，其余渲染按钮；`render` 优先于 `href`。激活项获得 `aria-current="page"`。禁用项不触发选择或关闭。图标模式保留 `aria-label` 与 tooltip，图标本身不重复朗读。
+
+导出 `AdminShell`、`AdminPageLayout`、`AdminPageSticky`，以及 `AdminShellProps`、`AdminShellLabels`、`AdminNavigationGroup`、`AdminNavigationItem` 类型。
+
+## 使用
+
+```tsx
+import { HomeIcon } from "lucide-react";
+import { AdminShell, AdminPageSticky } from "@/components/admin-shell";
+import { Button } from "@/components/ui/button";
+
+export function Workspace() {
+  return (
+    <AdminShell
+      labels={{
+        navigation: "主导航",
+        mobileTitle: "工作区导航",
+        mobileDescription: "选择要打开的页面。",
+        openNavigation: "打开导航",
+        closeNavigation: "关闭导航",
+        expandSidebar: "展开侧栏",
+        collapseSidebar: "折叠侧栏",
+      }}
+      groups={[{
+        id: "workspace",
+        title: "工作区",
+        items: [{ id: "overview", label: "概览", icon: <HomeIcon />, href: "/", active: true }],
+      }]}
+      brand={(compact) => compact ? <HomeIcon aria-hidden="true" /> : "示例工作区"}
+      header={<h1>工作区概览</h1>}
+    >
+      <AdminPageSticky>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p role="status">所有更改已保存</p>
+          <Button onClick={() => window.print()}>打印</Button>
+        </div>
+      </AdminPageSticky>
+      <div className="p-6">页面内容</div>
+    </AdminShell>
+  );
+}
+```
+
+`registry:component` 文件安装到 `components/admin-shell.tsx`。若自定义 `components` alias，请同步调整导入。
+
+## 吸顶与滚动契约
+
+`AdminPageLayout` 接收 `header`、`children` 和原生 div props，可独立用于自己的外壳；它应位于有界高度的 flex 容器中。`AdminShell` 已包含该布局，无需再嵌套。每页在布局后代声明一个 `AdminPageSticky`，内容通过 Portal 插入标题行下方，标题与状态／操作行一起吸顶。
+
+ResizeObserver 测量包含换行状态与操作的整体高度，在布局自身设置 `--admin-sticky-height`；其滚动容器用该值设置 `scroll-padding-top`，输入、按钮、链接及带 tabindex 的元素获得 12px `scroll-margin-top`。多个布局不会共享或覆盖测量变量。避免额外创建内容滚动容器或给状态行写固定 top 偏移。
+
+手机复用相同导航顺序与底部内容，始终显示分组标题。Sheet 支持 Escape、焦点圈定、关闭后回到触发器，层级高于吸顶区。桌面支持展开／图标两种状态，以及 Sidebar 的 Ctrl/⌘+B 快捷键；展开变更沿用 Sidebar 的 `sidebar_state` cookie 写入，不自动读取或恢复应用偏好。
+
+## 状态与应用职责
+
+示例包含当前项、不可用项、短／长状态、保存中禁用和保存完成反馈。状态内容、加载错误、重试操作、账户菜单及空导航由 props 和 children 组合；组件不请求数据、不接入认证、路由或 i18n，也不推断权限。导航项的 icon 和 label 应始终提供。

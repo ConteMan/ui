@@ -20,7 +20,7 @@ Nimbus 官方 Astro 文档脚手架、React、Base UI、Tailwind CSS 4、shadcn 
 
 ## Capabilities and Constraints
 
-范围包含基础、表单、数据展示、浮层、导航、三种页面模式及浅深色主题。DataTable 支持本地及受控服务端分页、排序、筛选、选择与列设置。后台外壳等待上游 #396。文档中文为主，可切换英文。组件所有文案通过 props 传入。仓库公开，MIT 许可。
+范围包含基础、表单、数据展示、浮层、导航、四种页面模式及浅深色主题。DataTable 支持本地及受控服务端分页、排序、筛选、选择与列设置。后台外壳提供分组侧栏、页面吸顶区与手机导航。文档中文为主，可切换英文。组件所有文案通过 props 传入。仓库公开，MIT 许可。
 
 ## Brand Commitments
 

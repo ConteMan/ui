@@ -82,8 +82,8 @@ export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
           </UI.SidebarContent>
           <UI.SidebarFooter>
             {text(
-              "基础分组示例，后台外壳另行迁移。",
-              "Primitive groups; the admin shell is deferred.",
+              "基础分组示例，可组合为后台外壳。",
+              "Primitive groups for composing an admin shell.",
             )}
           </UI.SidebarFooter>
         </UI.Sidebar>
@@ -97,4 +97,4 @@ export default function Example({ locale = "zh" }: { locale?: "zh" | "en" }) {
 
 Supply visible text, accessible names and feedback through props or children. Form controls expose disabled and invalid states; static display components inherit their state from content. Overlays use Base UI focus management, Escape dismissal and focus restoration. Use `.dark` on the consuming root for dark mode.
 
-Sidebar is a primitive with groups. The grouped admin shell and sticky page header are intentionally deferred; see [Admin shell](/en/patterns/admin-shell/).
+Sidebar supplies grouping primitives. For grouped navigation, a page-owned sticky region and mobile navigation, see [Admin shell](/en/patterns/admin-shell/).

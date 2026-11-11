@@ -53,15 +53,7 @@ export function docsNavigation(pathname: string): SidebarItem[] {
     [
       "页面模式",
       "Page patterns",
-      [
-        ...componentGroups.patterns.map(
-          (name) => [name, `/patterns/${name}/`] as [string, string],
-        ),
-        [
-          english ? "Admin shell (deferred)" : "后台外壳（待迁移）",
-          "/patterns/admin-shell/",
-        ],
-      ],
+      componentGroups.patterns.map((name) => [name, `/patterns/${name}/`]),
     ],
     [
       "主题",
