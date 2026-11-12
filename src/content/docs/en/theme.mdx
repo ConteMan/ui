@@ -34,6 +34,26 @@ Toggle `.dark` on the root element to use the installed variables:
 document.documentElement.classList.toggle("dark");
 ```
 
+## Base UI state variants
+
+The theme also ships Tailwind variants for Base UI state attributes. Component shorthands such as `data-open:` and `data-horizontal:` depend on them:
+
+```css
+@custom-variant data-open {
+  &:where([data-state="open"]), &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+```
+
+The full list is `data-open`, `data-closed`, `data-checked`, `data-unchecked`, `data-selected`, `data-disabled`, `data-active`, `data-horizontal` and `data-vertical`. `npx shadcn add @conteman/theme` writes all nine, plus the `no-scrollbar` utility our components use, into your entry stylesheet. They are equivalent to `shadcn/tailwind.css`, so having both is harmless. For manual theme setups, copy the full block or import `@import "shadcn/tailwind.css"`. Do not rewrite component shorthands as `data-[state=…]`, or orientation and open/closed states stop working.
+
 ## Tokens
 
 The theme includes background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring and paired foreground colors. Components use square corners. Values live in the `cssVars.light` and `cssVars.dark` fields in `registry.json`.

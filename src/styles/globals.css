@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "../../registry/themes/conteman.css";
+@import "../../registry/themes/variants.css";
 
 @source "../../registry";
 

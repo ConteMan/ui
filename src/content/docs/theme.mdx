@@ -34,6 +34,26 @@ shadcn 初始化为 Tailwind CSS 4 准备主题映射。确保入口 CSS 保留�
 document.documentElement.classList.toggle("dark");
 ```
 
+## Base UI 状态变体
+
+主题同时提供 Base UI 状态属性的 Tailwind 变体，组件里的 `data-open:`、`data-horizontal:` 等简写依赖它们：
+
+```css
+@custom-variant data-open {
+  &:where([data-state="open"]), &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+```
+
+完整列表为 `data-open`、`data-closed`、`data-checked`、`data-unchecked`、`data-selected`、`data-disabled`、`data-active`、`data-horizontal`、`data-vertical`。`npx shadcn add @conteman/theme` 会把这九个变体与组件使用的 `no-scrollbar` 工具类写入入口 CSS。定义与 `shadcn/tailwind.css` 等价，两者同时存在不会报错；手动维护主题时复制整段，或引入 `@import "shadcn/tailwind.css"`。不要把组件里的简写改成 `data-[state=…]`，否则横向／纵向与开合状态会失效。
+
 ## 主题变量
 
 主题包含 background、foreground、card、popover、primary、secondary、muted、accent、destructive、border、input、ring 及对应前景色，默认方角。主题值在 `registry.json` 的 `cssVars.light` / `cssVars.dark` 中维护。

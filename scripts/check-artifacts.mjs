@@ -14,6 +14,13 @@ assert.deepEqual(
 const names = new Set(registry.items.map((item) => item.name));
 const graph = new Map();
 const routes = [];
+const theme = registry.items.find((item) => item.type === "registry:theme");
+const themeVariants = new Set(
+  Object.keys(theme?.css ?? {})
+    .filter((key) => key.startsWith("@custom-variant "))
+    .map((key) => key.slice("@custom-variant ".length)),
+);
+const usedVariants = new Set();
 for (const source of registry.items) {
   const item = JSON.parse(await text(`r/${source.name}.json`));
   assert.equal(item.name, source.name);
@@ -46,6 +53,11 @@ for (const source of registry.items) {
       `${source.name}: stale generated source`,
     );
     for (const match of code.matchAll(
+      /(?:^|[^\w-])(?:group|peer|has|in|not)?-?data-(open|closed|checked|unchecked|selected|disabled|active|horizontal|vertical)(?:\/[\w-]+)?:/g,
+    )) {
+      usedVariants.add(`data-${match[1]}`);
+    }
+    for (const match of code.matchAll(
       /from\s+["']@\/(?:components\/(?:ui\/)?|hooks\/|lib\/)([^"']+)["']/g,
     )) {
       const dependency = match[1].split("/").at(-1);
@@ -62,6 +74,12 @@ for (const source of registry.items) {
         : `${source.categories[0]}/${source.name}`;
     routes.push(route, `en/${route}`);
   }
+}
+for (const variant of usedVariants) {
+  assert.ok(
+    themeVariants.has(variant),
+    `${variant}: used by components but missing from the theme`,
+  );
 }
 const visit = (name, ancestors = []) => {
   assert.ok(

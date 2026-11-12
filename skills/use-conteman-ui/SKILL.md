@@ -26,7 +26,7 @@ npx shadcn add @conteman/button
 npx shadcn add @conteman/data-table
 ```
 
-DataTable resolves Button, Input, Table, class utilities and theme automatically. It uses TanStack Table 8. Inspect theme changes before applying them to an established design system.
+DataTable resolves Button, Input, Table, class utilities and theme automatically. It uses TanStack Table 8. The theme writes its light/dark variables and nine Base UI custom variants (`data-open`, `data-closed`, `data-checked`, `data-unchecked`, `data-selected`, `data-disabled`, `data-active`, `data-horizontal`, `data-vertical`) plus the `no-scrollbar` utility into the entry stylesheet; component shorthands such as `data-horizontal:` rely on them, so keep the shorthands instead of rewriting them as `data-[orientation=…]`/`data-[state=…]`. Inspect theme changes before applying them to an established design system.
 
 ## Compose
 

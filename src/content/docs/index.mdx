@@ -26,6 +26,8 @@ npx shadcn add @conteman/data-table
 
 DataTable 会自动安装 Button、Input、Table、工具函数、TanStack Table 8 与浅深色主题。不需要逐个添加依赖组件。已有主题会被安装器更新，执行前请检查工作区差异。
 
+主题还会向 Tailwind 入口 CSS 写入 `data-open`、`data-closed`、`data-checked`、`data-unchecked`、`data-selected`、`data-disabled`、`data-active`、`data-horizontal`、`data-vertical` 九个自定义变体。组件里的 `data-open:`、`data-horizontal:` 等简写靠它们匹配 Base UI 输出的 `data-state`／`data-orientation`；请保留简写，不要改成 `data-[state=…]`。手动维护主题时，见[主题](/theme/)页的同一段定义。
+
 ## 从一个例子开始
 
 - [Button](/basics/button/)：变体、禁用、加载与 Base UI 弹层。

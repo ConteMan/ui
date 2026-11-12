@@ -26,6 +26,8 @@ npx shadcn add @conteman/data-table
 
 DataTable installs Button, Input, Table, class utilities, TanStack Table 8 and the light/dark theme automatically. The theme updates existing variables; inspect your working tree before accepting those changes.
 
+The theme also writes nine custom variants into your Tailwind stylesheet: `data-open`, `data-closed`, `data-checked`, `data-unchecked`, `data-selected`, `data-disabled`, `data-active`, `data-horizontal` and `data-vertical`. Component shorthands such as `data-open:` and `data-horizontal:` rely on them to match the `data-state` and `data-orientation` attributes Base UI emits. Keep the shorthands; do not rewrite them as `data-[state=…]`. For manual theme setups, copy the same block from the [Theme](/en/theme/) page.
+
 ## Explore the examples
 
 - [Button](/en/basics/button/): variants, disabled and loading states, and a Base UI dialog.
